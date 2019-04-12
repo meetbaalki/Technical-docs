@@ -1,0 +1,36 @@
+Design patterns used in Spring:
+1. Proxy - used heavily in AOP, and remoting.
+2. Singleton - beans defined in spring config files are singletons by default
+3. Template method - used extensively to deal with boilerplate repeated code (such as closing connections cleanly, etc..). For example JdbcTemplate, JmsTemplate, JpaTemplate.
+4. Model View Controller :-) . The advantage with Spring MVC is that your controllers are POJOs as opposed to being servlets. This makes for easier testing of controllers. One thing to note is that the controller is only required to return a logical view name, and the view selection is left to a separate ViewResolver. This makes it easier to reuse controllers for different view technologies.
+5. Front Controller. Spring provides DispatcherServlet to ensure an incoming request gets dispatched to your controllers.
+6. View Helper - Spring has a number of custom JSP tags, and velocity macros, to assist in separating code from presentation in views.
+7. Strategy pattern - The DI thing actually is some kind of strategy pattern. Whenever you want to be some logic/implementation exchangeable you typically find an interface and an appropriate setter method on the host class to wire your custom implementation of that interface.
+8. Factory pattern is also used for loading beans through BeanFactory and Application context.
+9. Prototype : instance type can be prototype. 
+10. Builder pattern: you can also define a method in a class who will be responsible for creating complex instance.
+11. Observer -  it is used in ApplicationContext's event mechanism
+12. Service Locator Pattern - ServiceLocatorFactoryBean keeps information of all the beans in the context. When client code asks for a service (bean) using name, it simply locates that bean in the context and returns it. Client code does not need to write spring related code to locate a bean.
+13. Abstract Factory - Spring container generates bean objects depending on the bean scope (singleton, prototype etc..). So this looks like implementing Abstract Factory pattern. In the Spring's internal implementation, I am sure each scope should be tied to specific factory kind class.
+
+Reference - https://premaseem.wordpress.com/2013/02/09/spring-design-patterns-used-in-java-spring-framework/
+
+Design patterns in struts:
+•	Model-View-Controller – Most widely used and famous pattern which separates the representation of information from the user’s interaction with it
+•	Front Controller –  The pattern relates to the design of web applications. It “provides a centralized entry point for handling requests. Front controllers are often used in web applications to implement workflows. While not strictly required, it is much easier to control navigation across a set of related pages (for instance, multiple pages might be used in an online purchase) from a front controller than it is to make the individual pages responsible for navigation
+•	Session Façade – Use a Session Façade to encapsulate business-tier components and expose a coarse-grained service to remote clients. Clients access a Session Façade instead of accessing business components directly.
+•	Service Locator – The service locator pattern is a design pattern used in software development to encapsulate the processes involved in obtaining a service with a strong abstraction layer. This pattern uses a central registry known as the “service locator” which on request returns the information necessary to perform a certain task.
+•	Data Transfer Object (a.k.a ValueObject) – Data transfer object (DTO) is a design pattern used to transfer data between software application subsystems. DTOs are often used in conjunction with data access objects to retrieve data from a database.
+•	Command – This pattern is a behavioral design pattern in which an object is used to represent and encapsulate all the information needed to call a method at a later time. This information includes the method name, the object that owns the method and values for the method parameters.
+•	Business Delegate – When you want to hide clients from the complexity of remote communication with business service components, Use a Business Delegate to encapsulate access to a business service. The Business Delegate hides the implementation details of the business service, such as lookup and access mechanisms.
+•	Factory – Most famous pattern, to implement the concept of factories and deals with the problem of creating objects (products) without specifying the exact class of object that will be created. The essence of this pattern is to “Define an interface for creating an object, but let the classes that implement the interface decide which class to instantiate. The Factory method lets a class defer instantiation to subclasses.”
+•	Data Access Object – This  (DAO) is an object that provides an abstract interface to some type of database or other persistence mechanism. By mapping application calls to the persistence layer, DAOs provide some specific data operations without exposing details of the database
+•	Service to Worker – When you want to perform core request handling and invoke business logic before control is passed to the view, Use Service to Worker to centralize control and request handling to retrieve a presentation model before turning control over to the view. The view generates a dynamic response based on the presentation model.
+Struts controller uses the Command design pattern and the action classes use the Adapter design pattern. The process() method of the RequestProcessor uses the Template method design pattern. Struts also implement the following J2EE design patterns.
+1.Context Object design pattern
+2. Synchronizing Token
+
+5. Intercepting Filter
+6. Composite View(Struts Tiles)
+7.View Helper(Tag Library)
+8. Application Controller ( Dispatcher Class)

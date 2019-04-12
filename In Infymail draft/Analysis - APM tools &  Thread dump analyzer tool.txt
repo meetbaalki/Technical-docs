@@ -1,0 +1,14 @@
+Javamelody analysis:
+Userguide - https://code.google.com/p/javamelody/wiki/UserGuide
+
+License: ASL since v1.50, LGPL before v1.50
+Java version - 1.6 or later
+Required dependency: JRobin (LGPL) for evolution charts
+
+It supports WAS, but need to make a note of this issue - https://code.google.com/p/javamelody/issues/detail?id=103
+
+Thread dump analyzer:
+The thread dump file(text file) can be generated from the APM tools. And that file can be analyzed using the thread dump analyzer tools. Samurai is one of the thread dump tool.
+1.	Download samurai.jar file from internet
+2.	Run “java –jar samurai.jar”
+3.	Now we will get the GUI from where we can open the thread dump file. This tool will give the GUI representation of threads with state – running, blocked, deadlocked, etc.

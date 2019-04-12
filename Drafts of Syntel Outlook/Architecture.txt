@@ -1,0 +1,12 @@
+Shared-Nothing architecture - The distributed computing architecture where each node will be independent and self-sufficient. It never depends on other nodes. Google call this as Sharding.
+
+ 
+
+Multiversion Concurrency control(MVCC) is a concurrency control method used in DBMS to provide concurrent access to database. Generally when the database is modified by a writer thread then the reader thread to read the modifying data should wait until the writer completes. This is called read-write lock. MVCC is similar to fail-safe mechanism, where the readers will get a copy of the data(without writer's modification) until the writer completes. 
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

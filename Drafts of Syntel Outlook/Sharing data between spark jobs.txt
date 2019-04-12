@@ -1,0 +1,24 @@
+To share the data between multiple spark jobs with different functionalities
+
+1. Use Apache Ignite In-memory which shares the RDDs between spark jobs
+
+2. Write the data in HBase and let the other job read from the HBase DB.
+
+ 
+
+Apache Ignite examples:
+
+http://apache-ignite-users.70518.x6.nabble.com/Sharing-Spark-RDDs-with-Ignite-td2805.html
+
+https://github.com/apache/ignite/blob/master/examples/src/main/spark/org/apache/ignite/examples/spark/SharedRDDExample.java
+
+https://blog.knoldus.com/2016/07/26/sharing-rdds-states-across-spark-applications-with-apache-ignite/
+
+ 
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

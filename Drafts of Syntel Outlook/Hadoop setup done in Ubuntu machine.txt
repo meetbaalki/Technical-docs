@@ -1,0 +1,2 @@
+https://www.dezyre.com/hadoop-tutorial/hadoop-multinode-cluster-setup
+https://www.tutorialspoint.com/hadoop/hadoop_multi_node_cluster.htm

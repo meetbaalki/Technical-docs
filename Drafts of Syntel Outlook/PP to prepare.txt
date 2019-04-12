@@ -1,0 +1,34 @@
+1. REST vs SOAP
+
+2. SQL DB vs. NoSQL
+
+3. Java 6,7,8 differences
+
+4. Node.js architecture
+
+5. 12 factors in cloud computing
+
+5. Java Memory model
+
+6. Java APM tools
+
+7. PayPal architecture
+
+8. Data structure - Mirror a binary tree, reverse a linked list
+
+9. Multithreading
+
+10. OAuth2.0 setup and its functionality
+
+11. Kafka and zookeeper architecture
+
+12. usage of Kafka and zookeeper in a real time project
+
+ 
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

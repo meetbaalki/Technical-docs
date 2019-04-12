@@ -1,0 +1,190 @@
+Regex in Java - to learn
+
+ 
+
+Long coding problems -
+
+library management
+--Conference Track Management. - asked more than once
+--Merchants guide to galaxy problem - asked more than once
+--sales tax problem  - asked more than once
+design a visitor entry management system
+Railway ticket management system 
+code an cricket scoreboard displaying total score of the team playing with who is batting and bowling currently 
+MineSweeper
+designing a courier system
+Object Oriented modelling of a electric circuit 
+Design of Ipl cricket tournament 
+build a simple solution to an airplane seating 
+to create fb what would the underlying logic be 
+design an elevator
+
+ 
+
+All questions -
+
+regular expressions
+
+difference between webservice and website
+what is basic usage of interfaces
+collections
+multithreading
+internals of webservice,https 
+
+Design Snake game using OOAD.
+
+Data structures, Algorithms, UML diagram, Networks, and skills mentioned in the CV.
+
+Which one you prefer, java or scala? And explain why?
+
+Asked about my previous projects
+
+modelling questions like library management(1.5 hrs) and data structures to hold deck of cards
+
+I got a problem statement for Conference Track Management. - 1.5 hrs
+
+Database modelling, webservices
+
+How to design windows universal application?
+
+How do you find the middle element in a linked list? 
+Answer: Have two pointers, one jumping two elements for every traversal and another jumping single element. when first pointer reached the end and by the time the second would have reached the middle.
+
+Implement a HashMap.
+Design a database structure for E-commerce website.
+Design a Uber/Ola application.
+Few data structure and algorithm problems.
+Find repeating sub string pattern in a string.
+Previous project challenges related discussion.
+What is the social cause you care about most and its solutions. 
+
+Merchants guide problem - 1.5 hrs
+
+Balance parenthesis in a string 
+
+Given a string, remove all duplicates in it and also print the number of removals required. i/p = AAABCCD o/p = 3, ABCD.
+
+we had to design an ios contact search which should be able to search the contacts with first name, second name, first five digits of the phone number and last five digits of the phone number
+
+Given a number n, find if its prime or not. Your function should be recursive and it should not loop beyond n/2. Example: given n=13, your recursion should not go beyond 13/2 i.e. 6
+
+What data structure to use for Smartphone lock screen
+
+questions like to replace a placeholder with string, count the frequency of all letters in a string, remove elements form string 1 in string 2 , etc easy but you need speed.
+
+sales tax problem - 1.5 hrs
+
+some puzzles like 100 floors and 2 eggs
+
+Reverse level order travesal, check for balanced parentheses without using stack, opinion on state of homosexuals . transgenders , women in our country
+
+One question was count number of character occurence , another one removing characters from second string in first string. Third finding a number is prime or not and such type of questions 
+
+How does a web chat work? 
+
+A knapsack problem
+
+how will you design a visitor entry management system?  - 1.5 hrs
+
+find total tax on products with different conditions
+
+design a grocery store management system
+
+How to declare multi dimensional arrays dynamically. 
+
+Anagrams code
+output minimum cost to commute from one station to another in railway network
+loops in linkedlist
+sequence - 10,9,60,12, ? ,
+
+Given a sentence, rearrange all the words in alphabetical order.
+Example:
+Input: This is an exam.
+Output: an exam is This. 
+
+Railway ticket management system through OOPS basics. - 1.5 hrs
+
+There are three colored shirts namely R, G, B
+Return true if the user string contains shirts of given color in pairs
+eg Input: RRGBGB Output:True
+Input:RRBGG Output:False 
+
+pattern coding - 
+The pattern they gave was
+             1
+           2 3
+         4 5 6
+       7 8 9 10
+         4 5 6
+           2 3
+             1 
+
+
+I have to code an cricket scoreboard displaying total score of the team playing with who is batting and bowling currently - 1.5 hrs
+
+Scheme to store the data of a tree in database and a query to print it's hierarchy
+
+10 people can share a bucket of coins equally. A monkey steals one coin. The no of coins are one less than equal share. one person after the other tries to take the coin but monkey kills them(killing spree?? :-)). each time a person dies the no of coins are always one short of equal share. what were the no of coins originally?. 
+
+Same old Poor MineSweeper - 1.5 hrs
+
+questions include matrix addition, odd nos between 1 and 1000 whose sum of digits is 7
+
+How to do the task of conditional statement like if else, switch case without using it
+
+designing a courier system - 1.5 hrs
+
+The problem was similar to designing a mobile keypad and to translate te number input to text. The text should be checked if it matches with some words they had given. logic is very important.
+
+Do you prefer a lean API or a broad API?
+
+Object Oriented modelling of a electric circuit - 1.5 hrs
+
+Design of Ipl cricket tournament - 1.5 hrs
+implement queue using stack
+find Nth node form end in linked list 
+all ds that can be implement for finding of palindrome
+
+Merchant's guide to galaxy - 1.5 hrs
+
+Dependency inversion principle, dependency injection and inversion of control
+
+Conference Track Management and Guide to Galaxy problem - 1.5 hrs
+
+given 2 arrays, you have to find whether 2nd array is subset of first in O(n)
+
+program to find nth last element in a singly linked list given head pointer only
+
+Had to build a simple solution to an airplane seating - 1.5 hrs
+
+Find the longest palindrome in a continuous alphanumeric string
+
+Given a graph in which nodes represents hosts and edges represent connections, I was asked to create tables and queries related to that.
+
+Given fans, lights and switches, i was asked to relate it using oops concepts. They expected to explain every concept in oops like inheritance, abstraction, etc with them
+
+how wil u add a billion numbers?
+
+BBST insertion - Balanced Binary search tree
+
+implement a hashmap in java
+
+How to store comments to comments (as in fb/blogs) in a table? table structure, primary key 
+
+If u were to create fb what would the underlying logic be ?  - 1.5 hrs
+
+Wat will u handle if the customer wants to able to change the s/w requirement anytime ? 
+
+design an elevator - 1.5 hrs
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 

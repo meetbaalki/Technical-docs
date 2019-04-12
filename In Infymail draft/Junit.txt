@@ -1,0 +1,152 @@
+Concepts:
+1.	Fixtures is a fixed state of a set of objects used as a baseline for running tests. The purpose of a test fixture is to ensure that there is a well-known and fixed environment in which tests are run so that results are repeatable. It includes
+a.	setUp() method which runs before every test invocation.
+b.	tearDown() method which runs after every test method.
+2.	Test suite means bundle a few unit test cases and run it together. In JUnit, both @RunWith and @Suite annotation are used to run the suite test. Here is an example which uses TestJunit1 & TestJunit2 test classes.
+//JUnit Suite Test
+@RunWith(Suite.class)
+@Suite.SuiteClasses({ 
+TestJunit1.class ,TestJunit2.class
+})
+public class JunitTestSuite { }
+
+How to write and execute test cases:
+1.	Create a java class to be tested say MessageUtil.java with method name printMessage()
+2.	Create a java test class say TestJunit.java with a test method testPrintMessage() having annotation @Test. Implement the test condition and check the condition using assertEquals API of Junit.
+3.	Create a TestRunner java class.
+a.	Use runClasses method of JUnitCore class of JUnit to run test case of above created test class
+b.	Get the result of test cases run in Result Object
+c.	Get failure(s) using getFailures() methods of Result object
+d.	Get Success result using wasSuccessful() methods of Result object
+public class TestRunner {
+   public static void main(String[] args) {
+      Result result = JUnitCore.runClasses(TestJunit.class);
+      for (Failure failure : result.getFailures()) {
+         System.out.println(failure.toString());
+      }
+      System.out.println(result.wasSuccessful());
+   }
+}
+4.	A TestCase class defines the fixture to run multiple tests. For this extend TestCase from Java test classes(as in #2). Like
+public class TestJunit2 extends TestCase  {
+   protected double fValue1;
+   protected double fValue2;
+   
+   @Before 
+   public void setUp() {
+      fValue1= 2.0;
+      fValue2= 3.0;
+   }
+	
+   @Test
+   public void testAdd() {
+      //count the number of test cases
+      System.out.println("No of Test Case = "+ this.countTestCases());
+		
+      //test getName 
+      String name= this.getName();
+      System.out.println("Test Case Name = "+ name);
+
+      //test setName
+      this.setName("testNewAdd");
+      String newName= this.getName();
+      System.out.println("Updated Test Case Name = "+ newName);
+   }
+   //tearDown used to close the connection or clean up activities
+   public void tearDown(  ) {
+   }
+}  
+5.	A TestResult collects the results by executing a test case. It is an instance of the Collecting Parameter pattern. The test framework distinguishes between failures and errors. A failure is anticipated and checked for with assertions. Errors are unanticipated problems like an ArrayIndexOutOfBoundsException.
+public class TestJunit3 extends TestResult {
+   // add the error
+   public synchronized void addError(Test test, Throwable t) {
+      super.addError((junit.framework.Test) test, t);
+   }
+
+   // add the failure
+   public synchronized void addFailure(Test test, AssertionFailedError t) {
+      super.addFailure((junit.framework.Test) test, t);
+   }
+   @Test
+   public void testAdd() {
+   // add any test
+   }
+   
+   // Marks that the test run should stop.
+   public synchronized void stop() {
+   //stop the test here
+   }
+}
+6.	A TestSuite is a Composite of Tests. It runs a collection of test cases.
+7.	Annotations:
+a.	@Test – the public void method of Test class that can be run as test case.
+b.	@Before – the public void method gets executed before running each test case methods.
+c.	@After - the public void method gets executed after running each test case methods.
+d.	@BeforeClass – the public void method gets executed once before running first test case method of the class.
+e.	@AfterClass - the public void method gets executed once after running all test case methods of the class.
+f.	@Ignore – to ignore the particular test case method
+8.	TestSuite is a collection of Test classes that needs to be executed together in a single shot. 
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	TestEmployeeDetails.class,
+	TestEmployeeDetails1.class
+})
+public class TestEmployeeDetailsTestSuite {
+}
+	Here TestEmployeeDetails.class and TestEmployeeDetails1.class are the Test classes.
+9.	To control the infinite loop on test case, we can use timeout options like
+@Test(timeout=1000)
+Public void testMethod() {
+}
+10.	Exceptions Test – we can handle the exceptions like
+@Test(expected = ArithmeticException.class)
+Public void testMethod() {
+}
+11.	Parameterized class – This is useful to pass the different combination of values during run time by defining them in parameters upfront. 
+@RunWith(Parameterized.class)
+public class PrimeNumberCheckerTest {
+   private Integer inputNumber;
+   private Boolean expectedResult;
+   private PrimeNumberChecker primeNumberChecker;
+
+   @Before
+   public void initialize() {
+      primeNumberChecker = new PrimeNumberChecker();
+   }
+
+   // Each parameter should be placed as an argument here
+   // Every time runner triggers, it will pass the arguments
+   // from parameters we defined in primeNumbers() method
+   public PrimeNumberCheckerTest(Integer inputNumber, 
+      Boolean expectedResult) {
+      this.inputNumber = inputNumber;
+      this.expectedResult = expectedResult;
+   }
+
+   @Parameterized.Parameters
+   public static Collection primeNumbers() {
+      return Arrays.asList(new Object[][] {
+         { 2, true },
+         { 6, false },
+         { 19, true },
+         { 22, false },
+         { 23, true }
+      });
+   }
+
+   // This test will run 4 times since we have 5 parameters defined
+   @Test
+   public void testPrimeNumberChecker() {
+      System.out.println("Parameterized Number is : " + inputNumber);
+      assertEquals(expectedResult, 
+      primeNumberChecker.validate(inputNumber));
+   }
+}
+12.	JUnit Extensions
+a.	Cactus is a simple test framework for unit testing server-side java code (Servlets, EJBs, Tag Libs, Filters)
+b.	JWebUnit is a Java-based testing framework for web applications. It wraps existing testing frameworks such as HtmlUnit and Selenium with a unified, simple testing interface to allow you to quickly test the correctness of your web applications.
+c.	XMLUnit provides a single JUnit extension class, XMLTestCase, and a set of supporting classes that allow assertions to be made.
+d.	MockObject - In a unit test, mock objects can simulate the behavior of complex, real (non-mock) objects and are therefore useful when a real object is impractical or impossible to incorporate into a unit test.
+
+Reference - http://www.tutorialspoint.com/junit/index.htm
+

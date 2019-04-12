@@ -1,0 +1,50 @@
+Components of Distributed System -
+1. Distributed Storage - HDFS
+2. Distributed processing
+    a. Resource management
+    b. Distributed computation
+3. Network
+ 
+In Hadoop 1.0, HDFS was the distributed storage and MapReduce was taking care of resource management and distributed computation.
+In Hadoop 2.0, HDFS was the distributed storage, YARN(Yet Another Resource Negotiator) takes care of resource management and MapReduce takes care of distributed computation.
+ 
+HDFS
+HDFS stores immutable data and also it works based on client server architecture. It is created based on GFS(Google File System). It has software based fault tolerance by replication.
+ 
+The block size is 64MB by default. The value 64MB is fixed because we need to share this data between nodes and so need to use network for transfer. During when if the size is smaller like 64MB then the possibility of transfer getting failed is less. Also, even if it fails then we need to retry for only 64MB. At the same time, if the block size is 1GB or so then during failure we need to retry the whole 1GB again.
+ 
+HDFS stores the data in binary format in file system.
+ 
+HDFS has two type of nodes - Namenode(Master) and Datanode(Slave). The Namenode holds the metadata info and Datanode holds the actual data. The Namenode does the splitting of file as chunks to be stored in Datanode and passes on the info. The Datanode converts the data in chunk into binary format and stores in it. Datanode also takes care of replicating the chunk data in multiple data nodes.
+The Namenode holds the following details
+1. Name space info (directory structure)
+2. File chunk mapping
+3. chunk server location
+In a node, each chunk will get an unique id for identification. In case of replica in multiple nodes, the same chunk id will be used in multiple nodes. But at any time, within the same node the same chunk id will not be used.
+ 
+The Namenode stores it data in local master file system and if needed can store in network file system.
+In Hadoop 1.0, we had a secondary name node which is not a backup for name node but does the compression of metadata which is been stored by name node.
+In Hadoop 2.0, we have primary name node, secondary name node and backup name nodes which will be used when primary name node goes down. Also, zookeeper software is been used to manage the name nodes in switching between the active name nodes. i.e., if primary name node goes down then zookeeper immediately route the incoming request to backup name node which is active. Zookeeper gets the heartbeat of name nodes and keeps track of the active name nodes. This zookeeper software is been used in HBase, Cassandra, etc., for the similar purpose. Data nodes heart beat will be tracked by name nodes.
+ 
+HDFS Balancer takes care of replica management in the cluster. We do have under-replicated data and more replicated data. Under replicated means due to some issue the data is not been replicated in 3 nodes. More replicated occurs when any one of the actual data node(to hold the replica) is down then the system will bring up another datanode to hold the replica. After some time when the fault data node is up then it will get the replica copy from other data nodes. In this case, we do have 4 copies of the same data instead of 3. This is called More replicated data. HDFS Balancer runs thru the data nodes and corrects these under-replicated and more-replicated data.
+ 
+Map/Reduce
+In Map Reduce operation, the file will get split into partitions. Here the splitting will be done by looking at the logical end points.
+InputFormat is the API for splitting the file. By default, Hadoop tries to make the number of splits equal to no of chunks. But this split can be configurable as well.
+The processing of split/partition can be distributed and the assignment of partition processing can be done like whichever the machine which holds the corresponding chunk, the same machine will be given first preference. There too, the node having chunk copy sitting near to master with good bandwidth will get the highest preference.
+ 
+Each split processing will be done in a separate JVM. So, before starting the split processing, the JVM will be setup and then the processing will be done in that JVM. So, if we increase the no of split to increase the parallel processing then considerable amount of time will be spent in JVM setup. So, this needs to be considered while configuring the split count.
+ 
+The processing in Hadoop will be done by Map and Reduce by key. They play will key-value pairs.
+Mapper instance - Mapper is the process which holds the logic of processing the data and instance means the JVM instance on which the mapper runs. So, there can be multiple mappers with the same processing logic but works on different partition data. The output of each mapper instance will be persisted in local disk of slave as file and not in HDFS. So, each mapper instance will create its own file and have the processed output in it.
+The slave/datanode can be used for both HDFS and MapReduce.
+ 
+Shuffling - Moving the Mapper output to the place where Reduce can process it.
+ 
+By default we have one Reducer instance. But if we want to increase it then by max we can have reducers equal to the number of keys.
+ 
+Before doing Reduce, Hadoop does the following in order
+1. Merge - merges the mapper output
+2. Group - Group the mapper output based on keys
+ 
+After doing merge and group, Hadoop kick starts reduce operation. The output of reduce can be stored in HDFS. But again give the directory name to store the reducer output instead of file name. Because if more than one reducer are running then a single file cannot be used by all reducer instances. Hence provide the directory name, so that all reducers can create a separate file to store their output.

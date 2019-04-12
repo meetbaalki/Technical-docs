@@ -1,0 +1,5 @@
+1. Username/pwd - balakrishnan/Syntel123$
+ 
+Run mongodb
+1. In a cmd prompt run - mongod.exe --dbpath "C:\Program Files\MongoDB\data"
+2. Open another cmd prompt and run - mongo

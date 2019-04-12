@@ -1,0 +1,14 @@
+http://www.bubblecode.net/en/2016/01/22/understanding-oauth2/
+
+https://www.cloudfoundry.org/oauth-rest/
+
+https://aaronparecki.com/oauth-2-simplified/
+
+http://tutorials.jenkov.com/oauth2/overview.html
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

@@ -1,0 +1,22 @@
+MongoDB setup - 
+Deploy a sharded cluster - 
+https://docs.mongodb.com/manual/tutorial/deploy-shard-cluster/
+
+Step by step MongoDB sharded cluster(Ubuntu) - 
+http://codingmiles.com/mongodb-sharded-cluster-deployment/
+
+Setup MongoDB shard(windows) - 
+https://coderwall.com/p/bzz1ra/set-up-mongodb-shard-windows-local
+
+Replica setup(windows) - 
+https://blog.basefarm.com/blog/how-to-install-mongodb-on-windows-server-2012-with-a-replication-set/
+
+Why MongoDB eventually consistent?
+1. https://stackoverflow.com/questions/11292215/where-does-mongodb-stand-in-the-cap-theorem
+2. https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html
+3. https://aphyr.com/posts/322-call-me-maybe-mongodb-stale-reads
+4. https://dzone.com/articles/how-acid-mongodb
+ 
+MongoDB and Spark
+1. Spark connector guide - https://docs.mongodb.com/spark-connector/master/java-api/
+2. With DataSet - https://docs.mongodb.com/spark-connector/current/java/datasets-and-sql/

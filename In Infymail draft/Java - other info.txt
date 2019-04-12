@@ -1,0 +1,71 @@
+Security vulnerabilities:
+1.	Injection flaws – SQL injection
+2.	Cross site scripting(XSS)
+3.	Sensitive data exposure - Sensitive data should be encrypted at all times, including in transit and at rest.
+4.	Cross site Request Forgery(CSRF) – 
+In the case of CSRF, a 3rd party site issues requests to the target site (e.g., your bank) using your browser with your cookies / session. If you are logged in on one tab on your bank’s homepage, for example, and they are vulnerable to this attack, another tab can make your browser misuse its credentials on the attacker’s behalf, resulting in the confused deputy problem.
+Prevention: Store a secret token in a hidden form field which is inaccessible from the 3rd party site. You of course always have to verify this hidden field. Some sites ask for your password as well when modifying sensitive settings (like your password reminder email, for example), although I’d suspect this is there to prevent the misuse of your abandoned sessions (in an internet cafe for example).
+5.	Unvalidated redirects and forwards – Prevention can be done by 
+a.	Don’t do redirects at all (they are seldom necessary).
+b.	Have a static list of valid locations to redirect to.
+
+Query optimization:
+1.	Look at the DB Schema and see if it makes sense
+2.	Only query what you really need - Filter as much as possible, Select only the fields you need and Be careful with joins, as they are expensive
+3.	Have index for primary keys. The index should be of integers/Boolean /numbers. Don’t have blobs, varchars as index. Also, if the primary is going to have lot many updations, insertion, etc. then having index is costly as DB needs to maintain it.
+4.	Move queries to stored procedures, because
+a.	Stored procedures are compiled making them faster that SQL query.
+b.	Stored procedures can have many queries in it and so they don’t use much bandwidth.
+c.	Stored procedures run on server and so they are much faster.
+5.	Remove unwanted views – views are special type of queries and they are not tables. So, when we run any query on view, it will first try to create a view and on top of view it runs the query. So, if you always need a same info then views are good. But if you want to filter on view then it will make it slower.
+6.	Use Having clause in only necessary places.
+
+Difference between Java 6, 7 & 8:
+Java 7 – 
+1.	Switch on strings. i.e., switch statements to accept String objects
+2.	Try with resources is introduced.
+static String readFirstLineFromFile(String path) throws IOException {
+  try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+    return br.readLine();
+  }
+}
+Here the BufferedReader object will get closed regardless of whether the try statement completes normally or abruptly. Also, many more object creation can be done here like
+	try (
+      		java.util.zip.ZipFile zf = new java.util.zip.ZipFile(zipFileName);
+     		java.io.BufferedWriter writer = java.nio.file.Files.newBufferedWriter(outputFilePath, charset)
+	    ) { … }
+If an exception is thrown from the try block and one or more exceptions are thrown from the try-with-resources statement, then those exceptions thrown from the try-with-resources statement are suppressed. You can retrieve these suppressed exceptions by calling theThrowable.getSuppressed method from the exception thrown by the try block
+3.	Diamond expressions – 
+		Map<String, List<String>> myMap = new HashMap<String, List<String>>(); //till Java 6
+In Java SE 7, you can substitute the parameterized type of the constructor with an empty set of type parameters (<>):
+         Map<String, List<String>> myMap = new HashMap<>();
+4.	Lightweight fork/join introduced in concurrency.
+5.	Internationalization upgrade – upgrade on Unicode 6.0
+
+Java 8 – 
+1.	Language level support for lambda expressions
+2.	Introduced a Javascript runtime, which allows developers to embed Javascript code within the application
+3.	Annotation on Java types – 
+For example, you want to ensure that a particular variable in your program is never assigned to null; you want to avoid triggering a NullPointerException. You can write a custom plug-in to check for this. You would then modify your code to annotate that particular variable, indicating that it is never assigned to null. The variable declaration might look like this:
+	@NonNull String str;
+When you compile the code, including the NonNull module at the command line, the compiler prints a warning if it detects a potential problem, allowing you to modify the code to avoid the error. After you correct the code to remove all warnings, this particular error will not occur when the program runs.
+4.	New Date and Time API – 
+For example, the existing classes (such as java.util.Date and SimpleDateFormatter) aren’t thread-safe, leading to potential concurrency issues for users—not something the average developer would expect to deal with when writing date-handling code.
+Some of the date and time classes also exhibit quite poor API design. For example, years in java.util.Date start at 1900, months start at 1, and days start at 0—not very intuitive.
+These issues, and several others, have led to the popularity of third-party date and time libraries, such as Joda-Time.
+In order to address these problems and provide better support in the JDK core, a new date and time API, which is free of these problems, has been designed for Java SE 8.
+
+
+HTTPS:
+HTTPS is HTTP over SSL and SSL stands for secure socket layer,  which provides both encryption and verification of websites. When data is transmitted using HTTPS protocol, they are encrypted before transmission from both client and server end, so anyone who can intercept or trap https traffic can see the data, but not in meaningful format. SSL also facilitate verification of website by using certificates issued by third party issuer like VeriSign, godaddy, thwate etc.
+How this certification works?  when client (browser) connect to Server using https, Server returns certificates issued by trusted third party issuer, if it’s Java application, it can access certs stored in its keystore and truststore, browser also has those certificate in his trusted certificate store and validates any certificate presented by server against those. If browser or any Java client, doesn't find the those certificates, it can alert you by saying certificates not recognized and recommend you not to visited the site. You can also manually trust any website and ask browser to include certificate presented by server in its trusted certificate store. This is the case with development when Tomcat returns either self-signed or test certificates. For Java programmers,  JDK comes with a keytool command, which can be used to create self signed certs and store those in keystore and truststore for use.
+
+How SSL handshake works? – 
+1.	A browser requests a secure page (usually https://) to the server.
+2.	The web server sends its public key with its certificate.
+3.	The browser checks that the certificate was issued by a trusted party (usually a trusted root CA), that the certificate is still valid and that the certificate is related to the site contacted.
+4.	The browser then uses the public key, to encrypt a random symmetric encryption key and sends it to the server with the encrypted URL required as well as other encrypted http data.
+5.	The web server decrypts the symmetric encryption key using its private key and uses the symmetric key to decrypt the URL and http data.
+6.	The web server sends back the requested html document and http data encrypted with the symmetric key.
+7.	The browser decrypts the http data and html document using the symmetric key and displays the information.
+

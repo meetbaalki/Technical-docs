@@ -1,0 +1,29 @@
+AES and DES - security in J2EE
+
+API metering - in API management
+
+Difference between J2EE release versions(5,6,7, etc.)
+
+RESTful web service - architecture principle
+
+Component Dependency Injection by Oracle
+
+J2EE frameworks - like Spring. Any other frameworks?
+
+Handling Distributed transactions
+
+Different types of architecture
+
+ESBs
+
+Cloud computing architecture
+
+Application integration
+
+Middleware frameworks?
+
+Difference between util.Date and sql.Date class in Java
+
+ 
+
+ 

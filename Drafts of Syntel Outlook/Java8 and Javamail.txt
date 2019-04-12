@@ -1,0 +1,185 @@
+Java 8 -
+
+http://java.amitph.com/2014/01/understanding-java-8-streams-api.html
+
+http://winterbe.com/posts/2015/05/22/java8-concurrency-tutorial-atomic-concurrent-map-examples/
+
+ 
+
+New features in Java 8 -
+
+1. Default methods for Interfaces - Interfaces can have default implementation logic under default methods. Default methods are the methods with definition starting with keyword default. Like, default double sqrt(int a){...}. These methods can be overridden to get the specific logic in it, in the implementing classes.
+
+2. Lambda expressions -
+
+    a. Functional Interface - Interfaces with only one abstract method declaration. We can add annotation @FunctionalInterface to make the class to behave as a functional interface.
+
+    b. Built-in functional interfaces -
+
+            Predicates - Boolean valued function taking single argument. Exposes logical terms like and, or, negate
+
+            Function - functions produce result for the single argument passed. "compose", "andThen" can be used to chain multiple functions.
+
+            Consumer - represents operation to be performed by taking single argument.
+
+            Comparator - the old known functionality, but with new default methods.
+
+            Optional - simple container for a value which is null or not-null.
+
+3. Streams and ParallelStreams
+
+4. Map
+
+5. Date API
+
+6. Annotations
+
+ 
+
+Streams API -
+
+Introduced in Java 8 to achieve parallelism, functional programming and map-reduce concept.
+Streams are fixed data structures that works/processes on data that are been stored in collections.
+It computes on-demand basis i.e., it does lazy processing.
+External and Internal iterations - The iteration in for loop is an external iteration. And the iteration done in Stream APIs like map, forEach are internal iterations. In internal iterations, we will never know how the iteration is taken care.
+Streams support pipelining, which means that the processed data of one stream API will be passed as input for another API and so on.
+Its operation - Intermediate operation and Terminal operation.
+Intermediate operation - operations which are in the middle and they are lazy operations. These operations get executed only when terminal operation is invoked. For eg., map, filter, limit are part of intermediate operations
+Terminal operations - These are the last operations on that stream. They are reduce, anyMatch, allMatch, findFirst, etc.
+Reduce operation - The reduce operation is like "reduce(identity, accumulator)". Here identity is the default value that will be set when null is returned by accumulator. For eg. in summation logic, accumulator will have the summation logic where in if it returns negative value then 0 will be returned, if identity is set as 0. In Java 8, we have got Optional class. Optional classes are nothing but the class implemented with NullObject pattern. So, reduce operation is overloaded to return Optional object, like "Optional<Integer> sum = numbers.stream().reduce((x,y)->x+y);". Here since reduce return Optional object there is no problem of getting NullPointerException or so and hence no need of setting identity value. Nowadays even there are some streams intermediate operations which returns Optional object and so further intermediate or terminal operations also will work on Optional objects and returns the Optional object.           
+Sample code -
+
+    int max = 1000000;
+    List<String> values = new ArrayList<>(max);
+    for (int i = 0; i < max; i++) {
+        UUID uuid = UUID.randomUUID();
+        values.add(uuid.toString());
+    }
+    long countWithStream = values.stream().sorted().count();
+    long countWithParallelStream = values.parallelStream().sorted().count();                                                                                                                                                               
+
+ 
+
+Fork-join:
+
+Uses ForkJoinPool which is the enhanced version of ExecutorService
+The given task will be splitted into multiple sub-tasks and each thread can work on only one sub-tasks at a time
+Each thread will have its own task queue and will process on it. Once it's queue is empty then will look at global entry queue
+Threads also will look at other busy thread's task queue when it is free. For which it uses work-stealing algorithm
+ForkJoinTask is the base type for tasks executed inside ForkJoinPool. In practice, one of its two subclasses should be extended: the RecursiveAction for void tasks and the RecursiveTask<V> for tasks that return a value. They both have an abstract method compute() in which the task’s logic is defined.
+
+ 
+
+The submit() or execute() method (their use cases are the same):
+
+        public static ForkJoinPool forkJoinPool = new ForkJoinPool(2);
+
+
+ 
+
+        //Do fork-join using execute method
+        forkJoinPool.execute(customRecursiveTask);
+        int result = customRecursiveTask.join(); 
+                          [or]
+        //Do fork join using invoke method
+        int result = forkJoinPool.invoke(customRecursiveTask); //or use invokeAll(customRecursiveTask);
+
+ 
+
+        forkJoinPool.shutdown();
+
+ 
+
+Reference - http://www.baeldung.com/java-fork-join
+
+ 
+
+ExecutorService framework -
+
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        for (int i = 0; i < 10; i++) {
+
+            Runnable worker = new WorkerThread("" + i);
+            executor.execute(worker);
+
+        }
+
+        executor.shutdown();
+
+ 
+
+ThreadPoolExecutor -
+
+This has more features than ExecutorService. Here we can pass the minimum pool size, max pool size, blocking queue size(this will be used to queue the no. of tasks when the threads in pool are busy)
+
+ 
+
+        //RejectedExecutionHandler implementation - user defined. Need to override the method rejectedExecution()
+        RejectedExecutionHandlerImpl rejectionHandler = new RejectedExecutionHandlerImpl();
+        //Get the ThreadFactory implementation to use
+        ThreadFactory threadFactory = Executors.defaultThreadFactory();
+        //creating the ThreadPoolExecutor
+
+        ThreadPoolExecutor executorPool = new ThreadPoolExecutor(2, 4, 10, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2), threadFactory, rejectionHandler); //min size as 2, max as 4, queue size as 2
+        //start the monitoring thread
+        MyMonitorThread monitor = new MyMonitorThread(executorPool, 3);
+        Thread monitorThread = new Thread(monitor);
+        monitorThread.start();
+        //submit work to the thread pool
+        for(int i=0; i<10; i++){
+            executorPool.execute(new WorkerThread("cmd"+i));
+        }
+
+ 
+
+Atomic classes -
+
+AtomicInteger, AtomicLong, AtomicBoolean, AtomicReference
+
+ 
+
+Internally, the atomic classes make heavy use of compare-and-swap (CAS), an atomic instruction directly supported by most modern CPUs. Those instructions usually are much faster than synchronizing via locks. So my advice is to prefer atomic classes over locks in case you just have to change a single mutable variable concurrently.
+
+The Atomic classes has methods like incrementAndGet(), updateAndGet(), accumulateAndGet()
+
+ 
+
+New entry in Java 8 for Atomic classes -
+
+LongAdder, LongAccumulator
+
+ 
+
+LongAdder is alternative to AtomicLong, but LongAdder has better performance than AtomicLong.
+
+LongAdder provides add() and increment() methods which are thread safe. But instead of summing up the result, it maintains set of variables internally and gets the result only when sum() or sumThenReset() is been called.
+
+ 
+
+LongAccumulator is a more generalized version of LongAdder. It can take up the operation(addition, subtraction or any calculation) as lambda expression of type LongBinaryOperator and will perform that operation when accumulate method is called.
+
+        LongBinaryOperator op = (x, y) -> 2 * x + y;
+        LongAccumulator accumulator = new LongAccumulator(op, 1L);
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        IntStream.range(0, 10)
+                .forEach(i -> executor.submit(() -> accumulator.accumulate(i)));
+
+ 
+
+CountedCompleter - The way you work this class is you addToPendingCount() for every fork(). In the compute(), when done, you tryComplete(). When the count is zero, the method calls your onCompletion(). A bit messy but if your code is simple, it works.
+
+ 
+
+Java Mail - JavaMail is an API that is used to compose, write and read emails. The MimeMessage object will be created by setting the from, recipient(with InternetAddress/email address), subject, text. And after that javax.mail.Transport.send(mimeMessage) will be triggered to send the email.
+
+Similarly for receiving the emails, create the session, then using the session create the POP3 store object and connect with pop server. Then create the folder and open it. Now retrieve the messages from the folder in an array and print it.
+
+ 
+ 
+ 
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

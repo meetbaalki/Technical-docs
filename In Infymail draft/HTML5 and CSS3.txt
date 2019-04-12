@@ -1,0 +1,14 @@
+1.	<em> for italics character
+2.	Have charset in meta tag like <head> <meta charset “utf-8”/> </head>
+3.	<hr/> is to draw a horizontal line…used to draw lines between paragraphs or header and body, etc.
+4.	To display lists – 
+a.	<ul><li>scadcd</li></ul> - unordered list where in the bullets will be displayed for each list
+b.	<ol><li>fjw</li></ol> - ordered list where the numbers will be displayed in ascending order
+5.	<audio controls autoplay loop > 
+<source src=”file” type=”audio/mpeg” /> 
+If you see this message then upgrade the browser
+</audio> 
+- controls is to display the audio control, autoplay is to play automatically when page loads, loop is to go into loop while playing the audio file.
+- the message given will get displayed if the browser is unable to run the audio.
+6.	video tag is same like audio tag.
+

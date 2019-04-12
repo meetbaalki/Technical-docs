@@ -1,0 +1,46 @@
+SQL queries - http://www.bullraider.com/database/sql-tutorial/7-complex-queries-in-sql
+
+Array vs. ArrayList - http://javahungry.blogspot.com/2015/03/difference-between-array-and-arraylist-in-java-example.html
+
+Hibernate - http://javarevisited.blogspot.in/2013/05/10-hibernate-interview-questions-answers-java-j2ee-senior.html
+
+ 
+
+Java 8 -
+
+http://www.java67.com/2014/09/top-10-java-8-tutorials-best-of-lot.html
+
+http://winterbe.com/posts/2014/03/16/java-8-tutorial/
+
+http://www.mscharhag.com/java/java-8-date-time-api
+
+http://www.drdobbs.com/jvm/lambda-expressions-in-java-8/240166764?pgno=2
+
+ 
+
+node.js architecture - https://www.journaldev.com/7462/node-js-architecture-single-threaded-event-loop
+
+ 
+
+AngularJS architecture -
+
+https://www.youtube.com/watch?v=V5G6XW-9mic
+
+https://www.smashingmagazine.com/2015/01/angularjs-internals-in-depth/
+
+https://angular.io/guide/architecture
+
+http://mindbowser.com/what-is-angularjs-and-how-it-works/
+
+ 
+
+Against CAP theorem - https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html
+
+ActiveMQ core architecture - https://activemq.apache.org/artemis/docs/1.0.0/architecture.html
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

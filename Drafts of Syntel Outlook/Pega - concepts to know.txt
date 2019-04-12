@@ -1,0 +1,23 @@
+1. Enterprise class structure
+2. Application profiler
+3. Performance tuning - PAL, Log Analyzer, DB Tracer
+4. Pega framework implementation(CPM, NBAM, Smart Investigation)
+5. Node and Thread level page
+6. Pega OOTB Integration(Exception handling, Data mapping for services, Security model for SOAP connectors and services)
+7. Deployment architecture
+8. Rules import & export
+9. Pega Cache
+10. Pega Auth&Auth using LDAP and implement SSO
+11. Knowledge on Data models(Data tables, Data pages, properties)
+12. Knowledge on Case management
+13. Knowledge on Push and Pull routing
+14. Pege Rules agent like System indexer, System pulse
+15. Reporting - with Business Intelligence Exchange
+16. Experience in installing and managing application/web server
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

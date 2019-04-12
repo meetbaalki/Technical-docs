@@ -1,0 +1,47 @@
+Sorted list:
+1.	Reasonable knowledge of App Server deployment specifics (i.e. JBOSS)
+2.	knowledge on Queues( MQ)
+3.	knowledge on caching frameworks and distributed cache(Redis, Hazlecast) and data grid products like  GemFire, Coherence, Terracotta, Gigaspaces, memcache, Ehcache (at least one of the product)
+4.	Monitoring tools and performance tuning for Java code and JVM.
+5.	Understand application scalability, connection pooling, load balancing, caching and reliability concepts
+6.	Analyzing heap dump and thread dump will be a plus.
+7.	Working knowledge of spring integration, Spring AMQP, Rabbit MQ and in-memory databases.
+8.	Understanding of SOA concepts using TIBCO, MULE or any other ESB 
+9.	hands-on experience with Cloud platforms (SaaS, PaaS, IaaS) and Cloud computing concepts
+10.	Experience in cloud based development on AWS, Azure or other cloud platforms is a plus
+11.	Basic knowledge of Mobile frameworks and technologies (Titanium, PhoneGap, HTML5, Native) 
+12.	Database and Linux level performance tuning will be a plus.
+13.	reactive programming can be done in java 8, using RxJava (http://reactivex.io/).
+14.	Scala is used for concurrent based application because of Actor framework but similar frame called jActor is available as opensource in Java.
+
+
+Collections:
+* Experience in cloud based development on AWS, Azure or other cloud platforms is a plus
+Programming Languages/ frameworks: Java , J2EE, Spring, Hibernate, Python , JMS/MQTT/AMQP based message middleware, Apache Camel
+Familiarity with Monitoring tools and HA: ELB, Nginx, Nagios, Cloud watch, Zookeeper, Ansible, Chef , Puppet
+Distributed Cache: Redis, Hazelcast
+ 
+Adept at creating migration strategies (PaaS based approach / Rehost, Refactor, Revise, Rebuild, Replace) for migrating applications onto Cloud platform; defining delivery architecture, creating the migration plans, designing the orchestration plans, and more.
+Has deep experience in at least one of the standard industry cloud PaaS platforms available such as SFDC, AWS, Oracle, IBM, HP, VMWare etc
+Experience in enterprise architecture. Proven Capabilities in SOA, ESB, BPM, BPEL and advanced Java features EJB 3.1 and JMS etc
+Experience in BFSI domain and with Oracle middleware highly desirable 
+Seven Plus years of hands-on experience with Cloud platforms (SaaS, PaaS, IaaS) and Cloud computing concepts
+Knowledge of Caching technologies like EH-Cache, Coherence, etc 
+Understanding of SOA concepts using TIBCO, MULE or any other ESB 
+Basic knowledge of Mobile frameworks and technologies (Titanium, PhoneGap, HTML5, Native) 
+Understand application scalability, connection pooling, load balancing, caching and reliability concepts
+Practical experience with Hybris web services.
+Working knowledge of spring integration, Spring AMQP, Rabbit MQ and in memory databases.
+Working knowledge of distributed caching or data grid products like GemFire, Coherence, Terracotta, Gigaspaces, memcache, Ehcache (at least one of the product)
+
+* Knowledge on queues (i.e. MQ)
+* Knowledge on caching frame works (i.e. Redis)
+* Reasonable knowledge of App Server deployment specifics (i.e. JBOSS)
+* Performance tuning at JAVA Code as well as at JVM level will be a good to have skill.
+* Analysing heap dump and thread dump will be a plus.
+* Database and Linux level performance tuning will be a plus.
+
+Reporting in Java web applications using Jasper/ BIRT/ HTML reports 
+SOAP/ REST web services ; should have used some form of security with these SAML tokens/ OAuth/ https 
+
+

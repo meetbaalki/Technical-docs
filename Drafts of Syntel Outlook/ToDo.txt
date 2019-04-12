@@ -1,0 +1,55 @@
+1.       Java multithreading – Executor framework, Fork-Join, etc.
+
+2.       Java memory model
+
+3.       Java – Garbage collection algorithms
+
+4.       Java 8 features – Lambda(closures, etc.), concurrency, etc.
+
+5.       Java thread lifecycle and collections hierarchy
+
+6.       Spring - MVC, Security, Boot, Integration
+
+7.       Hibernate – Details, advantages and disadvantages, n+1 problem
+
+8.       Design principles
+
+9.       Architecture principles
+
+10.   RESTful service design principle
+
+11.   Design patterns – Gang of Four and J2EE design patterns
+
+12.   Cloud Computing – 12 factors, principles to follow while suggesting cloud platform.
+
+13.   Microservices – Docker, Kubernetes, API Management(APIGEE), Circuit Breaker
+
+14.   MongoDB – Eventually consistent, sharding
+
+15.   Cassandra basics
+
+16.   MySQL – horizontal scaling
+
+17.   Tomcat – clustering, configuration
+
+18.   Nginx - Load Balancing, Reverse proxy
+
+19.   Kafka – knowledge
+
+20.   Big data – knowledge
+
+21.  In-memory or cache frameworks
+
+22. Message Queues
+
+23. ZooKeeper – service replication
+
+24. OpenShift and Cloud Foundry
+
+25. Continuous Deployment
+
+26. Elastic Search and ELK stack
+
+27. JVM Internals : Memory management, Caching, IO, Heaps, Stack etc.), Concepts and Implementation of memory profiling tool Eclipse Performance tools
+
+ 

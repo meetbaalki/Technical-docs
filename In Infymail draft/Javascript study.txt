@@ -1,0 +1,13 @@
+1.	Javascript minification – This is to serialize the statements and bring them in less number of lines. This will reduce the total JS file size which will help in loading the JS files faster in browser. There are some tools to do this minification, like Google closure compiler, etc.
+2.	Javascript code quality check tool – “JSLint.com” is a tool that checks for JS standards, issues, errors, etc.
+3.	Instead of writing the javascript code in html file or other files, create a .js file and include it in other files wherever it is needed, like
+<script src=”test.js”></script>
+If we have this way, then browser requests the server to pass the test.js file when it is trying to execute the above statement. Also, we can define many script tags like above and so take care that you should not define many script tags in HTML file. Because that many requests will be sent to server which will slow down the page loading activity. Along with this, just make sure that you are adding the script tag in the respective order, because some common methods would have been defined in .js file which is been referenced in other .js files.
+4.	jQuery is the javascript library that comes up with methods and libraries to replace JS methods on document, etc. But jQuery methods are safer and easier to use, because they take care of browser compatibility as well.
+jQuery library can be downloaded from jQuery.com site and the same can be placed in our server to access it from HTML file using <script> tag. Because JQuery is also JS which has .js files. But companies like Google updates the jQuery file and they will have latest jQuery files that can be used. So, instead of referring the jQuery from our server we can provide the Google’s URL where its jQuery file is been placed. This will help us in 
+a.	speeding the jQuery file loading, as Google has lot of servers spread across the world and so the download will happen from the nearby Google server.
+b.	Since it is going to be same URL, the browser can cache the file content and from other HTML file, if we try to access then the data will be picked up from cache itself
+c.	Loading the files in parallel mechanism. Google has lot of advanced technique in making the download faster.
+The Google library details can be obtained from “code.google.com/apis/libraries”.
+5.	There is a tool called “modernizr” that can be used with HTML5+Javascript. Need to explore more on this. URL – “modernizr.com”
+6.	

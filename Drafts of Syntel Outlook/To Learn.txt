@@ -1,0 +1,110 @@
+To refresh
+
+1.       Java - Multithreading, collections
+
+2.       J2EE - Servlet,
+
+3.       Spring, Hibernate, Spring Boot Iw prep.
+
+4.       Memcached - architecture
+
+5.       Redis - internals
+
+6.       Memcached vs Redis
+
+7.       Apache CXF
+
+8.       REST Vs SOAP
+
+9.       RESTful web service - architecture principle
+
+10.   ELK stack - architecture and its integration logic
+
+11.   Java Mail
+
+12.   ActiveMQ
+
+13.   OAuth 2.0 - architecture, identity and access management - spend more time
+
+14.   nginx
+
+15.   Spark and big data - fundamentals
+
+16.   oracle, MongoDB – SQL query questions
+
+17.   Git - architecture
+
+18.   Maven - parent and child pom, etc.
+
+19.   VisualVM - how to work with it? Also deadlock identification.
+
+20.   Cloud computing - Bluemix architecture    
+
+21.   Docker
+
+22.   API Management - Apigee
+
+23.   ESBs
+
+24.   Different types of architecture 
+
+25.   Application server – Jboss
+
+26.   Continuous Integration and Delivery – Jenkins, SonarQube and Cobertura
+
+ 
+
+27.   Node.js and AngularJS architecture                                             
+
+ 
+
+28.   Datastructure - Binary trees
+
+ 
+
+29.   Application security, transaction management, caching, multi-tenancy
+
+ 
+
+node.js and angular.js architecture
+nginx, docker interview questions
+Application security, transaction management, caching, multi-tenancy
+
+ 
+
+ 
+
+To practice
+
+1. Java 8 programming skill
+
+2. Spring Boot
+
+3. Docker
+
+4. Microservices
+
+5. AWS
+
+6. OAuth
+
+7. MongoDB
+
+8. Mockito
+
+9. angular.js
+
+10. ActiveMQ
+
+11. node.js
+
+12. Android development
+
+13. Content Management System
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

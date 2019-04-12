@@ -1,0 +1,14 @@
+1. Install git bash
+2. Open git bash and go to the directory which need to be a local repository
+3. run "git init"
+4. copy all files which needs to be pushed into github
+5. run "git add ."
+6. run 'git commit -m "<message>"'
+7. In github page, get the remote repository url by clicking on the "clone or download" button.
+8. run "git remote add origin <remote url>"
+9. run "ssh-keygen -t rsa" and provide the directory(or go ahead with default directory) and password phrase.
+10. Open .ssh/id_rsa.pub file and copy the public key
+11. In github, click add new ssh key button and provide the copied public key
+12. run "git push origin master"
+ 
+Now the files will be moved to universal github repository.

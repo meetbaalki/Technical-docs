@@ -1,0 +1,34 @@
+When to use interface instead of abstract class – 
+An abstract class can have shared state or functionality. An interface is only a promise to provide the state or functionality. A good abstract class will reduce the amount of code that has to be rewritten because it's functionality or state can be shared. The interface has no defined information to be shared. Abstract classes ensure that all descendants share functionality/state, where an interface only ensures a common bond.
+
+Design Patterns:
+
+1.	 Abstract Factory has the factory object producing objects of several classes. Builder has the factory object building a complex product incrementally using a correspondingly complex protocol. Prototype has the factory object (aka prototype) building a product by copying a prototype object.
+2.	Abstract Factory classes are often implemented with Factory Methods, but they can also be implemented using Prototype.
+3.	Builder can use one of the other patterns to implement which components get built. Abstract Factory, Builder, and Prototype can use Singleton in their implementations.
+4.	Object Pool pattern – 
+a.	Create ObjectPool class with private array of Objects inside
+b.	Create acquare and release methods in ObjectPool class
+c.	Make sure that your ObjectPool is Singleton
+5.	Strategy pattern is used when you wish to plug algorithm or strategy at run time. As category of pattern also implies that it deals with behaviour of the objects. On the other hand bridge is structural pattern and deals with structural hierarchy of the objects. It decouples the abstraction from implementation by introducing a refined abstraction between them. Refined abstraction can be confused with the run time strategy plugged (In Strategy pattern). Bridge pattern deals with the structural aspects by providing a mechanism to avoid creating n number of classes.
+6.	Adapter and Facade are both wrappers; but they are different kinds of wrappers. The intent of Facade is to produce a simpler interface, and the intent of Adapter is to design to an existing interface. While Facade routinely wraps multiple objects and Adapter wraps a single object; Facade could front-end a single complex object and Adapter could wrap several legacy objects.
+7.	Adapter provides a different interface to its subject. Proxy provides the same interface. Decorator provides an enhanced interface
+8.	Facade defines a new interface, whereas Adapter reuses an old interface. Remember that Adapter makes two existing interfaces work together as opposed to defining an entirely new one.
+9.	Adapter is meant to change the interface of an existing object. Decorator enhances another object without changing its interface.
+10.	Adapter makes things work after they're designed; Bridge makes them work before they are.
+11.	Proxy pattern - There are four common situations in which the Proxy pattern is applicable.
+a.	A virtual proxy is a placeholder for "expensive to create" objects. The real object is only created when a client first requests/accesses the object.
+b.	A remote proxy provides a local representative for an object that resides in a different address space. This is what the "stub" code in RPC and CORBA provides.
+c.	A protective proxy controls access to a sensitive master object. The "surrogate" object checks that the caller has the access permissions required prior to forwarding the request.
+d.	A smart proxy interposes additional actions when an object is accessed. Typical uses include: 
+
+i.	Counting the number of references to the real object so that it can be freed automatically when there are no more references (aka smart pointer),
+ii.	Loading a persistent object into memory when it's first referenced,
+iii.	Checking that the real object is locked before it is accessed to ensure that no other object can change it.
+12.	Adapter provides a different interface to its subject. Proxy provides the same interface. Decorator provides an enhanced interface.
+13.	Decorator and Proxy have different purposes but similar structures. Both describe how to provide a level of indirection to another object, and the implementations keep a reference to the object to which they forward requests.
+14.	a. Chain of Responsibility, Command, Mediator, and Observer, address how you can decouple senders and receivers, but with different trade-offs. Chain of Responsibility passes a sender request along a chain of potential receivers.
+b. Chain of Responsibility can use Command to represent requests as objects.
+c. Chain of Responsibility is often applied in conjunction with Composite. There, a component's parent can act as its successor.
+15.	
+

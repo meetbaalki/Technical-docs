@@ -1,0 +1,12 @@
+https://ofirm.wordpress.com/2014/01/05/creating-a-virtualized-fully-distributed-hadoop-cluster-using-linux-containers/
+
+http://doctuts.readthedocs.io/en/latest/hadoop.html
+
+http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-multi-node-cluster/
+
+
+
+
+Ubuntu - 
+    1. To login to root use "sudo -i"
+    2. Change the password - "sudo passwd"

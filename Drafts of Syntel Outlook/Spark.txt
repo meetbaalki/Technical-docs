@@ -1,0 +1,159 @@
+https://www.usenix.org/legacy/event/hotcloud10/tech/full_papers/Zaharia.pdf
+ 
+calling scala class from Java - 
+ http://blog.muhuk.com/2016/05/24/how_to_call_scala_from_java__using_scala_classes.html#.WYfi0_l96ig
+ http://ted-gao.blogspot.com/2011/09/mixing-scala-and-java-in-project.html
+ 
+ 
+Spark -
+https://spark.apache.org/
+https://spark.apache.org/docs/latest/#launching-on-a-cluster
+https://spark.apache.org/docs/latest/streaming-programming-guide.html
+ 
+Look out for all videos of datamantra - search for "spark datamantra" and view those videos.
+ 
+Kafka -
+http://kafka.apache.org/documentation.html
+ 
+Spark Architecture -
+1. RDD (Resilient Distributed DataSet) - Resilient means fault tolerant.
+        RDD is the data set used by Spark with following characteristics
+        a. immutable
+            - immutable allows to store the data for long time
+            - Lazy transformation allows to recreate data on failure
+        b. Lazy evaluation - means do the evaluation only when needed. Until then don't do it
+                For eg. if we need to read a file, filter the lines which has "spark" keyword and then get the total count.
+                Here reading the file will create an RDD to store the file data and then filter will create another RDD to store the filtered data. These two operation are part of transformations.
+                Then getting the count out of filtered data is the action to be performed. This action will be performed on the RDD only when requested. Until then it will never get the count and store in an RDD.
+        c. Cacheable
+        d. Type inferred
+ 
+RDD -
+1. Spark is built around RDDs. you create, transform, analyze and store RDDs in a Spark program
+2. The Dataset contains a collection of elements of any type
+    a. Strings, Lines, rows, objects, collections
+3. The Dataset can be partitioned and distributed across multiple nodes
+4. RDDs are immutable. They cant be changed
+5. They can be cached and persisted
+6. Transformations act on RDDs to create a new RDD
+7. Actions analyze RDDs to provide a result.
+8. RDD is resilient, as they rely on lineage and whenever there is a failure in the system they can recompute using the prior info in lineage graph 
+ 
+Difference between RDD and Distributed Shared memory - a comparison
+ 	RDD	DSM
+write operation	Coarse grained	Fine grained
+Recovery	lineage graph	check point - 
+consistency	trivial - bcoz the data is immutable and so wont be up to date	up to the application.
+ 
+Apache Spark - Scala - 52 videos on spark and scala in youtube
+ 
+Best Spark Video - But for 5.5 hrs
+Advanced Apache Spark Training - Sameer Farooqui (Databricks) - https://www.youtube.com/watch?v=7ooZ4S7Ay6Y&spfreload=10
+Using Apache Spark 2.0 to Analyze the City of San Francisco's Open Data - https://www.youtube.com/watch?v=K14plpZgy_c&list=PL-x35fyliRwheNb4GO7je57HTKv1NNCDo&index=1
+ 
+Look out for Sameer Farooqui's video on spark and HDFS
+ 
+Longer videos on spark -
+1. Understanding Apache Spark in Depth | Spark Explained | Apache Spark Tutorial | Edureka
+2. Spark Streaming | Spark Streaming Tutorial for Beginners | Real Time Processing | Edureka
+3. 5 Things One Must Know About Spark | Spark Tutorial | Spark Features | Edureka
+ 
+ 
+Learnt from Madhukara Phatak's spark videos
+From "Evolution of Spark" video
+     http://spark.apache.org/news/spark-1-0-0-released.html
+     www.youtube.com/watch?v=ckX6fT3kYG0
+     www.youtube.com/watch?v=iKOGBr-kOks
+     www.youtube.com/watch?v=7nIMpD5TyNs
+     www.youtube.com/watch?v=jErEhxP8LYQ
+ 
+Github link for examples - https://github.com/phatak-dev/spark2.0-examples
+ 
+Spark 2.0 -
+Spark 2.0 is going to deal with DataSet abstraction and has come up with libraries for DataSet and so RDD will slowly deprecated.
+1. DataSet - strongly typed collection of domain specific objects that can be transformed in parallel using functional or relational operations. DataSet is relational data type representation unlike RDD which has key-value pair form.
+2. DataFrame - Untyped view which is a DataSet of Row
+3. RDD - represents an immutable, partitioned collection of elements that can be operated on in parallel
+4. SparkSession API - Previously SparkContext is been used to create RDD, StreamingContext for DStream, etc. But from 2.0, these context will get deprecated and SparkSession is going to replace them. This SparkSession will help in creating DataSets. DataSet will be more like SQL APIin getting relational form data.
+5. SparkSession.read API returns DataFrame object which is unstructured form. To make it domain specific object(nothing but DataSet), we need to specify the type on SparkSession.read API, like appending
+".as[String]" to convert the format to String format.
+6. DataFrame Vs. DataSet -
+        a. DataSet has got  logicsal plan and optimizations of DataFrame
+        b. DataFrame is schema less DataSet
+        c. DataSet has additional step for serialization and checking for proper schema
+        d. DataSet serialization is custom specific serialization. This serialization is different from spark's Java serialization or kryo serialization
+        e. In DataFrame the query param passed for action will be validated during run time and so any error with the param will be thrown during runtime. But at the same time with DataSet, the error gets thrown at compile time itself.
+7. Catalogue API -
+        a. Brings support to manage external metastores from Spark
+        b. Integrates well with Hive metastore
+        c. Primarily used for DDL operations
+        d. API is built on DataSet abstraction
+8. Time analysis -
+    Analysis on data based on time window. This time abstraction can be used in both batch and streaming operations. Currently this is available only for DataFrames and for DataSet the libraries are not available in 2.0.
+9. Plugging Custom Optimizations -
+    In Spark 2.0, one can inject custom optimisations without changing majority of the source code. For eg. if the operation is multiply the values by 1 and provide the result then spark will do the multiplication for all the values without knowing that multiplication by 1 is not going to change the value. Hence we can write a custom optimization logic to skip the multiplication here. This will help us in skipping the serialization, action and deserialization logic and reduce the processing time.
+ 
+Memory Management in Spark -
+Two usages of memory -
+1. Execution - used for shuffles, joins, sorts, etc. Here once the computation is done and arrived at the output then the memory used can be flushed. Memory usage will be temporary.
+2. Storage - used to cache the data. This storage will not be temporary and those data can be used for multiple computations.
+ 
+The Heap memory of JVM is been used by Spark for its processing and storage. Spark 1.0 has the static memory allocation where in some percentage of the available RAM memory was distributed between execution and storage. Here if, either of the allocated memory is full then the disk storage will be used. In case of cache, it tries to clear the cache based on LRU algorithm. But here we could find a problem where in if storage memory is not full but execution memory is full. Even then execution will start using disk memory though there are enough in RAM which are part of storage.
+From Spark 1.6, this memory allocation will happen dynamically. The same RAM memory will be used by both execution and storage based on the availability. Here, if the execution needs some more memory where in storage+execution memory is 100% then spark tries to clear the cache to get some memory for execution. But in case of other operations like machine learning, where in the caching is major, we can configure the storage memory size by specifying minimum unevictable amount of cached data(not a reservation but suggestion).
+ 
+Not only these memory problem will arise between execution and storage. But also the same can happen with tasks running in parallel in execution or storage; and in single tasks handling multiple operations. In all these cases, spark does dynamic allocation and manages to distribute the memory for each task/operations instead of keeping them in wait state.so, the memory will get shared among all these entities.
+So, the dealing is when memory contention arises force members to spill so that every member will get memory to do their activity.
+ 
+Spark never uses the JVM way of allocating memory and uses tungsten format. Because JVM allocates 48 bytes memory to store a string "abcd", though it can be stored in 4 bytes. Tungsten uses different style in storing the data with less memory space which could be within 8 bytes. And in this case, tungsten method will store the data in a serialized manner if the data is an array. Hence we do not need serialization and deserialization of JVM process.
+ 
+Off heap - Here the memory allocation will happen in the area other than JVM's heap. Here, we use Unsafe API of Java to take care of memory and so the storage also will be done by us and no involvement of JVM.
+ 
+ 
+Machine Learning in Spark -
+1. You can find the code in github - search for introduction_to_ml_with_spark
+2. Breeze - library in scala for numerical computation. This library internally uses fortran for executing the calculation. Spark MLlib uses Breeze internally for vector manipulation. Also many data structures of Spark MLlib uses Breeze data structures.
+3. In machine learning, the data are been converted to RDD[Vectors]. And so any operation which happens on the data will be performed on Vectors which has the same data. But to speed up the process, when the data is huge then the input data will be split into partitions and each partition data will be constructed as matrix of RDD. Hence the mathematical calculation on the data will be performed on matrices. Performing maths calculation on matrix will be much faster as compared to performing on vectors. Because Vectors are single column matrices.
+4. MLLib is the library in Spark which is been used for Machine Learning program implementation in Spark. It uses Breeze library of Scala internally.
+5. Beyond MLLib -
+        a. MLLib Pipelines API
+        b. MLLib feature framework - deals with scaling, etc.
+        c. Sparkling Water - It is to integrate Spark with another product H2O.
+        d. SparkR - To work with R libraries
+        e. http://prediction.io - This exposes RESTful APIs to do machine learning logic implementation.
+ 
+ 
+ 
+ 
+ 
+ 
+Spark on YARN: a Deep Dive - Sandy Ryza (Cloudera) - https://www.youtube.com/watch?v=N6pJhxCPe-Y
+ 
+ 
+Videos watched -
+1. Introduction to spark architecture
+2. Introduction to spark streaming
+3. Introduction to Hadoop (HDFS & Map/Reduce) for Spark Developers
+4. Introduction to Apache Spark
+5. Introduction to spark 2.0
+6. Evolution of Apache Spark
+7. Deep Dive: Apache Spark Memory Management
+ 
+ 
+ 
+Spark setup and running a sample program -
+Install Spark, Java and Scala in windows - https://www.youtube.com/watch?v=WlE7RNdtfwE
+Setup Spark standalone cluster -  http://paxcel.net/blog/how-to-setup-apache-spark-standalone-cluster-on-multiple-machine/
+Running a sample program from cmd prompt - https://www.youtube.com/watch?v=4sO-VgqHLp4&index=7&list=PLIxzgeMkSrQ9VIyTdeqypk8jNJGpg579U
+ 
+Calling Java methods from Scala code - http://stackoverflow.com/questions/15507101/using-java-libraries-in-scala
+ 
+http://spark.training4exam.com/ - has training material for spark with HDFS and hands on pdf as well.
+ 
+To do for project
+Setup of HDFS
+MongoDB setup
+How to integrate spark with MongoDB?
+How to integrate spark with HDFS?
+How to create spark clusters? and their related configurations
+How to write a spark program and execute it? - https://www.youtube.com/watch?v=7k4yDKBYOcw
+How to call the existing Java libraries from scala code that is written as part of spark programming? - http://stackoverflow.com/questions/15507101/using-java-libraries-in-scala

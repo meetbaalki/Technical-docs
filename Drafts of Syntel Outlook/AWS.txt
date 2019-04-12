@@ -1,0 +1,6 @@
+AWS
+1.       Availability zones – data centers
+2.       Edge locations – to take the service closer to the user and this has cache in it.
+3.       Virtual Private Cloud(VPC) – AWS resources will be deployed in VPC which has virtual machines, databases, etc.
+4.       Networking Direct Connect – this helps in connecting from our private network to VPC. This communication would be private.
+5.       Route 53 – supports distributed DNS service. Allows domain name to be hosted on Amazon on port number 53.

@@ -1,0 +1,21 @@
+For IOT (Internet Of Things) project – 
+1.	Large scale development of enterprise software products/services
+2.	Excellent Java/J2EE skills
+3.	Working knowledge on web services, REST
+4.	Good background of working with databases, distributed cache systems
+5.	Background in internet security and secure programming
+6.	Understanding and commitment to product quality, including values such as scalability, performance, reliability and maintainability
+7.	Knowledge of NoSQL, ELK stack could be handy
+8.	Knowledge on ESB is a plus.
+9.	OAuth
+10.	HTTPS – how it works?
+11.	Session management – cookie, URL redirect, certificate, etc.
+12.	Security vulnerabilities
+13.	Java reflection
+14.	Spring – patterns used in spring, spring core and AOP concepts – like compile time weaving and runtime weaving
+15.	Load balancer, scaling, Continuous availability.
+16.	Performance tuning – Java applications.
+17.	Eh-cache – how it works? Also caching algorithms.
+18.	In-memory databases.
+19.	Knowledge on cloud computing
+20.	Difference between Java 6,7 & 8 releases

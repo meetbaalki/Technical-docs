@@ -1,0 +1,249 @@
+1.       Mulithreading is even more challenging than multitasking. The threads are executing within the same program and are hence reading and writing the same memory simultaneously
+2.       a thread needs some memory to keep its local stack. It may also take up some resources inside the operating system needed to manage the thread.
+3.       Thread.start() method will create a new thread and execute the run() method. So, instead of calling thread.start() if we call thread.run(), the program will run. But now, the main thread will execute the run() method. But our intention is to execute the run() method by a different thread. So, always call thread.start() method.
+4.       getName() method is in Thread class, which can be used in run() method to print any value with a thread name. But Runnable is not derived from Thread and so the run() method in Runnable class cannot use getName() method. But instead they can use Thread.currentThread().getName() method to get the thread name for printing values, etc.
+5.       threads are in principle executing in parallel and not sequentially. The JVM and/or operating system determines the order in which the threads are executed. This order does not have to be the same order in which they were started.
+6.       Local variables are stored in each thread's own stack. That means that local variables are never shared between threads. That also means that all local primitive variables are thread safe.
+7.       Deadlock prevention techniques.
+a.       Lock ordering – the threads can lock the objects in an order. This order must be decided based on the usage, so that the deadlock cannot occur.
+b.      Lock timeout – Better option than ordering. In this case, if the thread is waiting to get an object lock for some time then it’s waiting can be timed out and thread also releases its existing lock by taking backup. Then the thread goes for retry after some time.
+c.       Deadlock detection – Here, the threads can detect the deadlock and based on that can release the locks and goes for retry after some time. But this is again difficult if deadlock happened with many threads. A better option is to determine or assign a priority of the threads so that only one (or a few) thread backs up. The rest of the threads continue taking the locks they need as if no deadlock had occurred. If the priority assigned to the threads are fixed, the same threads will always be given higher priority. To avoid this you may assign the priority randomly whenever a deadlock is detected.
+8.       If a thread is not granted CPU time because other threads grab it all, it is called "starvation". The thread is "starved to death" because other threads are allowed the CPU time instead of it. The solution to starvation is called "fairness" - that all threads are fairly granted a chance to execute.
+Causes of Starvation in Java
+a.        Threads with high priority swallow all CPU time from threads with lower priority
+b.      Threads are blocked indefinitely waiting to enter a synchronized block
+c.       Threads waiting on an object (called wait() on it) remain waiting indefinitely
+Implementing Fairness in Java
+        a.    Using Locks Instead of Synchronized Blocks. Lock is a class which has methods lock() and unlock() implemented with local variables. lock() method is synchronized which calls wait()   method. unlock() method calls notify() based on the local variable value. Refer - http://tutorials.jenkov.com/java-concurrency/starvation-and-fairness.html
+b.      A fair lock – same like using Lock class, but the threads coming into wait state are been placed in a queue. So, whenever the object is unlocked the first thread in the queue gets the lock. This will make sure that all the threads gets a chance to use CPU time.
+9.       Deadlock – two threads are waiting for each other to release locks.
+Nested monitor lockout – Thread1 is holding a lock A and waits for a signal from Thread2. Thread2 needs the lock A to send the signal to Thread1.
+10.   Slipped conditions means, that from the time a thread has checked a certain condition until it acts upon it, the condition has been changed by another thread so that it is erroneous for the first thread to act. This normally happens when we have two or more synchronized blocks locking the same object in a method. where in when one thread acquires the lock of first block and other thread waits to lock another block. Because of this the second thread can modify the value which the first thread uses.
+11.   A java.util.concurrent.locks.Lock is a thread synchronization mechanism just like synchronized blocks. A Lock is, however, more flexible and more sophisticated than a synchronized block.
+The main differences between a Lock and a synchronized block are:
+a.       A synchronized block makes no guarantee about the sequence in which threads waiting to entering it are granted access.
+b.      You cannot pass any parameters to the entry of a synchronized block. Thus, having a timeout trying to get access to a synchronized block is not possible.
+c.       The synchronized block must be fully contained within a single method. A Lock can have it's calls to lock() andunlock() in separate methods.
+12.   The Lock interface has the following primary methods:
+a.       The lock() method locks the Lock instance if possible. If the Lock instance is already locked, the thread calling lock() is blocked until the Lock is unlocked.
+b.      The lockInterruptibly() method locks the Lock unless the thread calling the method has been interrupted. Additionally, if a thread is blocked waiting to lock the Lock via this method, and it is interrupted, it exits this method calls. For eg. If the threads used lockInteruptibly() to lock the objects then suddenly if the system needs to be shut down then an interrupt to these threads will unlock all those locks and comes out safely. Or else, if threads have used lock(),  then those threads cannot come out until they complete the processing. So, lockInteruptibly() is always safe to use.
+c.       The tryLock() method attempts to lock the Lock instance immediately. It returns true if the locking succeeds, false if Lock is already locked. This method never blocks.
+d.      The tryLock(long timeout, TimeUnit timeUnit) works like the tryLock() method, except it waits up the given timeout before giving up trying to lock the Lock.
+e.      The unlock() method unlocks the Lock instance. Typically, a Lock implementation will only allow the thread that has locked the Lock to call this method. Other threads calling this method may result in an unchecked exception (RuntimeException).
+13.   Re-entrant locks - Synchronized blocks in Java are reentrant. This means, that if a Java thread enters a synchronized block of code, and thereby take the lock on the monitor object the block is synchronized on, the thread can enter other Java code blocks synchronized on the same monitor object.
+If a thread already holds the lock on a monitor object, it has access to all blocks synchronized on the same monitor object. This is called reentrance. The thread can reenter any block of code for which it already holds the lock.
+14.   When guarding a critical section with a Lock, and the critical section may throw exceptions, it is important to call the unlock() method from inside a finally-clause. Doing so makes sure that the Lock is unlocked so other threads can lock it.
+15.   ReadWrite lock – conditions to get read and write access for a resource
+a.       Read Access -    If no threads are writing, and no threads have requested write access.
+b.      Write Access  - If no threads are reading or writing.
+It is worth noting that both unlockRead() and unlockWrite() calls notifyAll() rather than notify(). To explain why that is, imagine the following situation:
+Inside the ReadWriteLock there are threads waiting for read access, and threads waiting for write access. If a thread awakened by notify() was a read access thread, it would be put back to waiting because there are threads waiting for write access. However, none of the threads awaiting write access are awakened, so nothing more happens. No threads gain neither read nor write access. By calling noftifyAll() all waiting threads are awakened and check if they can get the desired access.
+Calling notifyAll() also has another advantage. If multiple threads are waiting for read access and none for write access, and unlockWrite() is called, all threads waiting for read access are granted read access at once - not one by one.
+16.   Read reentrant lock - A thread is granted read reentrance if it can get read access (no writers or write requests), or if it already has read access (regardless of write requests).
+To determine if a thread has read access already a reference to each thread granted read access is kept in a Map along with how many times it has acquired read lock. When determing if read access can be granted this Map will be checked for a reference to the calling thread.
+17.   Write reentrant lock - Write reentrance is granted only if the thread has already write access.
+18.   ReadWrite reentrant lock –
+a.       Sometimes it is necessary for a thread that have read access to also obtain write access. For this to be allowed the thread must be the only reader.
+b.      Sometimes a thread that has write access needs read access too. A writer should always be granted read access if requested. If a thread has write access no other threads can have read nor write access, so it is not dangerous.
+19.   Reentrance lockout - Reentrance lockout is a situation similar to deadlock and nested monitor lockout. Reentrance lockout may occur if a thread reenters a Lock, ReadWriteLock or some other synchronizer that is not reentrant. Reentrant means that a thread that already holds a lock can retake it.
+20.   A Semaphore is a thread synchronization construct that can be used either to send signals between threads to avoid missed signals, or to guard a critical section like you would with a lock.
+21.   The java.util.concurrent.Semaphore class is a counting semaphore. That means that it has two main methods:
+a.       acquire()
+b.      release()
+The counting semaphore is initialized with a given number of "permits". For each call to acquire() a permit is taken by the calling thread. For each call to release() a permit is returned to the semaphore. Thus, at most N threads can pass the acquire() method without any release() calls, where N is the number of permits the semaphore was initialized with. The permits are just a simple counter. Nothing fancy here.
+As semaphore typically has two uses:
+a.       To guard a critical section against entry by more than N threads at a time.
+b.      To send signals between two threads.
+22.   If you want to enforce fairness, the Semaphore class has a constructor that takes a boolean telling if the semaphore should enforce fairness. Enforcing fairness comes at a performance / concurrency penalty, so don't enable it unless you need it. Here is how to create a Semaphore in fair mode:
+Semaphore semaphore = new Semaphore(1, true);
+23.   A blocking queue is a queue that blocks when you try to dequeue from it and the queue is empty, or if you try to enqueue items to it and the queue is already full. A thread trying to dequeue from an empty queue is blocked until some other thread inserts an item into the queue. A thread trying to enqueue an item in a full queue is blocked until some other thread makes space in the queue, either by dequeuing one or more items or clearing the queue completely.
+In its implementation, notifyAll() is only called from enqueue() and dequeue() if the queue size is equal to the size bounds (0 or limit). If the queue size is not equal to either bound when enqueue() or dequeue() is called, there can be no threads waiting to either enqueue or dequeue items.
+It is not possible to insert null into a BlockingQueue. If you try to insert null, the BlockingQueue will throw a NullPointerException.
+It is also possible to access all the elements inside a BlockingQueue, and not just the elements at the start and end.
+24.   Since BlockingQueue is an interface, you need to use one of its implementations to use it. The java.util.concurrent package has the following implementations of the BlockingQueue interface
+a.       ArrayBlockingQueue - is a bounded, blocking queue that stores the elements internally in an array. bounded means that it cannot store unlimited amounts of elements.
+b.      DelayQueue
+c.       LinkedBlockingDeque
+d.      LinkedBlockingQueue
+e.      PriorityBlockingQueue
+f.        SynchronousQueue
+25.   The DelayQueue keeps the elements internally until a certain delay has expired. The elements must implement the interface java.util.concurrent.Delayed.
+The Delayed interface also extends the java.lang.Comparable interface, as you can see, which means that Delayed objects can be compared to each other. This is probably used internally in the DelayQueue to order the elements in the queue, so they are released ordered by their expiration time.
+26.   The LinkedBlockingQueue keeps the elements internally in a linked structure (linked nodes). This linked structure can optionally have an upper bound if desired. If no upper bound is specified, Integer.MAX_VALUE is used as the upper bound.
+27.   The PriorityBlockingQueue is an unbounded concurrent queue. It uses the same ordering rules as the java.util.PriorityQueue class. You cannot insert null into this queue.
+All elements inserted into the PriorityBlockingQueue must implement the java.lang.Comparable interface. The elements thus order themselves according to whatever priority you decide in your Comparable implementation.
+28.   The SynchronousQueue is a queue that can only contain a single element internally. A thread inserting an element into the queue is blocked until another thread takes that element from the queue. Likewise, if a thread tries to take an element and no element is currently present, that thread is blocked until a thread insert an element into the queue.
+29.   The BlockingDeque interface in the java.util.concurrent class represents a deque which is thread safe to put into, and take instances from. The BlockingDeque interface extends the BlockingQueue interface.
+A deque is short for "Double Ended Queue". Thus, a deque is a queue which you can insert and take elements from both ends.
+A BlockingDeque could be used if threads are both producing and consuming elements of the same queue. It could also just be used if the producting thread needs to insert at both ends of the queue, and the consuming thread needs to remove from both ends of the queue.
+Since BlockingDeque is an interface, you need to use one of its many implementations to use it. The java.util.concurrent package has the following implementations of the BlockingDeque interface:
+a.       LinkedBlockingDeque
+30.   Thread Pools are useful when you need to limit the number of threads running in your application at the same time. There is a performance overhead associated with starting a new thread, and each thread is also allocated some memory for its stack etc.
+Instead of starting a new thread for every task to execute concurrently, the task can be passed to a thread pool. As soon as the pool has any idle threads the task is assigned to one of them and executed. Internally the tasks are inserted into a Blocking Queue which the threads in the pool are dequeuing from.
+In the run() implementation for each thread, an indefinite while loop is covered with the logic where in the thread will deque from BlockingQueue and execute those. So, even if there is no data in the BlockingQueue the thread will be waiting. And so, no thread will get ended unless they are been stopped by the application. The stopping logic needs to be implemented in the ThreadPool class. To create a ThreadPool, we need a ThreadPool class and PoolThread class. PoolThread is for each threads.
+31.   If a thread (name it T1) calls the join method on another Thread (remember the wait method is in the Object class and the join method is specific to the Thread class and is present in the Thread class) named T2, then T1 waits for T2 to complete its execution before it continues from that point. The join call does not causes the calling thread to release a lock on any object and it simply makes it wait till the thread it called join on completes its execution keeping all the locks it already acquired.
+32.   CountDownLatch enables a java thread to wait until other set of threads completes their tasks. e.g. Application’s main thread want to wait, till other service threads which are responsible for starting framework services have completed started all services.
+The main thread can call CountDownLatech.await() method to put it in waiting state until all its sub threads complete.The sub threads call CountDownLatch.countDown() method to reduce the count by 1. And when the count of all sub threads become zero then main thread resumes from next line of await() method.
+33.   ConcurrentHashMap is designed to hold number of segments and each segment will have Hashtables to hold the data. So, ConsurrentHashMap will be like a virtual HashMap, but internally it stores all the data in Segment's hash table. And each segment can be locked by threads at a time. The number of segment split can happen based on the number of writer thread or by default the value will be calculated from 2^n=ConcurrentHashMap size, where n will be the number of segments. For eg. if ConcurrentHashMap size is 8 then 3 segements will get created, where 2^3 = 8.
+34.   Whenever you’re dealing with concurrency, there are dangers. Always remember the following:
+a.       Release all locks in finally block. This is rule 1 for a reason.
+b.      Beware of thread starvation! The fair setting in ReentrantLocks may be useful if you have many readers and occasional writers that you don’t want waiting forever. It’s possible a writer could wait a very long time (maybe forever) if there are constantly read locks held by other threads.
+c.       Use synchronized where possible. You will avoid bugs and keep your code cleaner.
+d.      Use tryLock() if you don’t want a thread waiting indefinitely to acquire a lock – this is similar to wait lock timeouts that databases have.
+35.   public interface Callable<V>, where V is the return type of the method call. This interface has a single method 'call', which needs to be defined by all the classes which implement this interface. This method takes no arguments and returns a result of type V. This method can throw checked exceptions as well.
+Callable interface use Generic to define the return type of Object. Executors class provide useful methods to execute Callable in a thread pool. Since callable tasks run in parallel, we have to wait for the returned Object. Callable tasks return java.util.concurrent.Future object. Using Future we can find out the status of the Callable task and get the returned Object. It provides get() method that can wait for the Callable to finish and then return the result.
+Future provides cancel() method to cancel the associated Callable task. There is an overloaded version of get() method where we can specify the time to wait for the result, it’s useful to avoid current thread getting blocked for longer time. There are isDone() and isCancelled() methods to find out the current status of associated Callable task.
+36.   Though both Callable and Runnable interface are designed to represent task, which can be executed by any thread, there is some significant difference between them. In my opinion, major difference between Callable and Runnable interface is that
+a.       Callable can return result of operation performed inside call() method, which was one of the limitation with Runnable interface.
+b.      Another significant difference between Runnable and Callable interface is ability to throw checked exception. Callable interface can throw checked exception because it's call method throws Exception.
+37.   CyclicBarrier is a natural requirement for concurrent program because it can be used to perform final part of task once individual tasks are completed.
+CyclicBarrier also the does the same thing like CountDownLatch, but there is a difference that you can not reuse CountDownLatch once count reaches zero while you can reuse CyclicBarrier by calling reset() method which resets Barrier to its initial State. What it implies that CountDownLatch is good for one time event like application start-up time and CyclicBarrier can be used in case of recurrent event e.g. concurrently calculating solution of big problem etc.
+a.       CyclicBarrier can perform a completion task once all thread reaches to barrier, This can be provided while creating CyclicBarrier .
+b.      If CyclicBarrier is initialized with 3 parties means 3 thread needs to call await method to break the barrier.                                       
+c.       Thread will block on await() until all parties reaches to barrier, another thread interrupt or await timed out.
+d.      If another thread interrupt the thread which is waiting on barrier it will throw BrokernBarrierException.
+e.      CyclicBarrier .reset() put Barrier on its initial state, other thread which is waiting or not yet reached barrier will terminate with java.util.concurrent.BrokenBarrierException .
+38.   Volatile keyword in Java is used as an indicator to Java compiler and  Thread that do not cache value of this variable and always read it from main memory. So if you want to share any variable in which read and write operation is atomic by implementation e.g. read and write in int or boolean variable you can declare them as volatile variable.
+a.       You can use Volatile variable if you want to read and write long and double variable atomically.Many  platform perform write in long and double variable 2 step, writing 32 bit in each step, due to this its possible for a Thread to see 32 bit from two different write. You can avoid this issue by making long and double variable volatile in Java
+b.      Volatile variable can be used as an alternative way of achieving synchronization in Java in some cases, like Visibility. with volatile variable its guaranteed that all reader thread will see updated value of volatile variable once write operation  completed, without volatile keyword different reader thread may see different values.
+c.       volatile variable can be used to inform compiler that a particular field is subject to be accessed by multiple threads.
+39.   Having String objects in String pool has one added advantage. i.e., the same strings getting stored in String pool will point to same memory address. So, this can be used as hash code for that string, as it is going to be unique and same value for all the string variables having the same string chars.
+40.   Equals() method in String class, does the comparison based on the content and “==” operator does the comparison based on reference(i.e., hash code).
+41.   Four types of references in Java – Strong reference, Soft reference, Weak reference, Phantom reference.
+42.   Weak reference - When there are one or more reference to an object it will not be garbage collected in Java. But this rule depends on what type of reference it is. If an object has only weak reference associated with other objects, then it is a valid candidate for garbage collection.
+Let us take a sample scenario to understand it better. Let TextView be an object (recently programming in Android and so using its class for example :-)) and we will have program generated ids used for its identification. These ids are used in some other object for referencing the TextViews.
+...
+Map textViewIdMap = new HashMap();
+textViewIdMap.put(textView1, iD1);
+textViewIdMap.put(textView2, iD2)
+...
+Key is TextView object and value is the Id. Now, during the execution of the program we have removed a TextView object say textView1. We do not require that view object so we have made it null. Now, what will happen to the key-value pair(textView1, iD1) stored in HashMap. This pair as of now makes no sense and it is not required as that textview itself is null.
+So, programmatic we need to ensure that, when a textView is removed then its corresponding entry in the map should be removed. Only then, that object becomes a candidate for garbage collection. Otherwise, even though it is not used at run-time, this stale object will not be garbage collected.
+43.   Soft reference - Soft Reference is slightly stronger that weak reference. Soft reference allows for garbage collection, but begs the garbage collector to clear it only if there is no other option. That is, it is eligible for garbage collection, but garbage collector can remove it based on the memory crunch it has. If it is left with little memory and it is in a position to reclaim memory, then it will collect the soft references.
+44.   Phantom reference - Phantom reference is different from soft/weak reference. This can never be reached before it is cleared in the program. Calling the get() on it return null always. When a phantom referenced object is garbage collected, it is notified via the ReferenceQueue. We can use this to find when it is garbage collected and no use other than that.
+45.   WeakHashMap is an implementation of the Map interface that stores only weak references to its keys. Storing only weak references allows a key-value pair to be garbage collected when its key is no longer referenced outside of the WeakHashMap. This class is intended primarily for use with key objects whose equals methods test for object identity using the == operator. Once such a key is discarded it can never be recreated, so it is impossible to do a look-up of that key in a WeakHashMap at some later time and be surprised that its entry has been removed.
+46.   String, Integer and other wrapper classes are immutable classes which can be used in Hash table without any problem, as the hash code can be uniform always.
+47.   Iterator – Iterators are of two types a)fail-fast and b) fail-safe
+Fail-fast iterators – these iterators throw ConcurrentModificationException when any modifications happen while iterating the collection. How this modifications are traced? Iterator has two elements named modCount and expectedModCount. modCount is the one which gets incremented for every action happened on the Collection. So, when the iterator is created, the current modCount value will be stored in expectedModCount. And whenever iterator does its traversing it checks if the modCount==expectedModCount. And if it is not equal then it throws ConcurrentModificationException. Because modCount can keep growing when Collection adds new element while iterator traverses.
+Also, one more…Both modCount and expectedModCount gets incremented when any element is been removed from the Collection. So that, the iterator will not throw exception. This is because iterator itself has a method  remove() to remove the elements from the Collection.
+Fail-safe iterators – These iterators create a copy of the collection and does the traversing. So, no problem with it. This is been implemented in ConcurrentHashMap and CopyOnWriteArrayList. But here the drawback is, the iterator may not know the changes that are been made during its traversal. And so, only the data which are last modified will be used. No remove() method here.
+48.   How to avoid ConcurrentModificationException while iterating thru Collections? a) can use ConcurrentHashMap or CopyOnWriteArrayList where fail-safe iterators are available b) Convert the list to an array and traverse over array data c) Synchronize the Collection and start traversing it, so that the Collection will be locked until the iterator completes it action.
+49.   UnsupportedOperationException is thrown when We invoke methods that are not supported by actual collection type. For example, if you make read-only collection list using ‘Collections.unModifiableList(list)’ and then call add() or remove() method, then we will get UnsupportedOperationException.
+50.   Stack and Vector are both synchromized.
+51.   Comparable vs Comparator – Comparable is used to compare any one of the field value of passed in object with the this object value, using compareTo() method. So, if we want to filter with more than one fields of the class then it is not possible with Comparable. Whereas Comparator can be used for any number of fields to have the comparing logic i.e., we can create different classes inheriting from Comparator interface and implement compare() method with the comparing logic for each field. And these inherited class object can be passed to sort method to apply the filtering logic like Collections.sort(obj, comparator obj).
+52.   What is the use of equals() method in Comparator interface? - It's just an over-ridden form of the Object's equals method to let you know if two objects are of same comparator type. Anyway, the presence of the equals(Object) method in the interface is solely for documentation purposes.
+53.   Arrays class helps array of objects to convert into collection objects. Arrays also have some functions which helps in copying or working in part of array objects.
+54.   Difference between executor.submit() and executor.execute() of ThreadPoolExecutor –
+The submit(...) method is executor framework extension introduced in ExecutorServiceinterface.
+It's main difference from execute(Runnable) is that it can accept Callable<V> (whereasexecute() accepts only Runnable) and returns instance of Future<V>, which you can use later in caller to retrieve result of asynchronous computation (potentially blocking until computation is completed).
+55.   Threads can throw InterruptedException. So, must to catch them in try-catch block.
+56.   Why Volatile variable is thread safe in java – Volatile variable’s value will be stored in main memory always. And a write to a volatile field happens-before every subsequent read of that field. So, no operations happen at the same time on the variable. Hence no possibility of getting concurrency errors.
+57.   Difference between ThreadPoolExecutor and ExecutorService – ExecutorService will in turn call ThreadPoolExecutor with the default values. So, if you want to have better configuration then go ahead with ThreadPoolExecutor, where you need to create the BlockingQueue object, to provide the basic thread count, max thread count, etc.
+ExecutorService executor = Executors.newFixedThreadPool(20);
+ 
+public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads,
+                                  0L, TimeUnit.MILLISECONDS,
+                                  new LinkedBlockingQueue<Runnable>());
+}
+Also, ThreadPoolExecutor has beforeExecute() and afterExecute() methods, which gets executed before and after execution of each tasks. So, it will be good to add logs, manage threads, etc. after every thread execution.
+58.   Inter-thread communications using piped streams – Most popular interview question, where the reader and writer threads communicate thru pipes. We have PipedReader and PipedWriter classes, where PipedWriter class connects to PipedReader class using PipedWriter(PipedReader r) constructor or PipedWriter.connect(PipedReader). PipedReader has a method called read() which reads character and write() method of PipedWriter writes String in to the stream.
+Create two thread classes PipedReaderThread and PipedWriterThread and implement the logic of reading and writing in run() method respectively.
+59.   Class level locking prevents multiple threads to enter in synchronized block in any of all available instances on runtime like “synchronized(ClassName.class)”
+60.   Difference between HashTable and HashMap – HashTable is legacy class which is synchronized, but HashMap is not. HashTable has enumerator but HashMap does not. HashMap can accept one null key, but HashTable throws NullPointerException.
+61.   Difference between enumerator and iterator –
+a.       Iterator is fail-fast and fail-safe. It has remove() method in fail-fast iterator. Has improved method like hasNext(), next()
+b.      Enumerator is fail-safe and so does not have remove() method. It is legacy and is only in vector and stack. It has methods like hasMoreElement(), nextElement().
+62.   HashMap has the concept of rehashing when it reaches its upper limit of size. This rehashing is the process of creating a new memory area, and copying all the already present key-value pairs in new memory area.
+63.   How to avoid Null pointer exception(NPE)
+a.       Apache commons lang is a collection of several utility classes for various king of operation. One of them is StringUtils.java. UseStringUtils.isNotEmpty() for verifying if string passed as parameter is null or empty string. If it is not null or  empty; then use it further.
+b.      Check Method Arguments for null very early
+c.       Consider Primitives Rather than Objects
+d.      Carefully Consider Chained Method Calls
+e.      Use String.valueOf() Rather than toString()
+f.        Avoid returning null from your methods
+g.       Discourage Passing of Null Parameters in methods
+h.      Use (“abc”.equals(string)) instead of (string.equals(“abc”))
+i.         Use instanceof operator while verifying the object. Because instanceof null always return false and so instanceof is NPE safe.
+64.   When finally will not get executed? – a)When JVM exits during try catch execution without any notice then finally may not get executed b) If a thread gets interrupted in the try block then it’s finally block may not get executed.
+65.   Best practices in exception handling-
+a.       Never swallow the exceptions in catch block
+b.      Declare the specific checked exceptions that your method can throw, and don’t declare generic exception
+c.       Do not catch the generic exception class, rather catch the specific exception class. Because the reason for throwing exception is to be caught at the catch block.
+d.      Never catch Throwable class – Because java Error class is also a Throwable class. So, don’t catch it.
+e.      Always correctly wrap the exceptions in custom exception, so that stack trace will not be lost – i.e., use exception chaining while throwing the custom exception after catching the exception.
+f.        Either log the exception or throw it. Never do both.
+g.       Never throw any exception from finally block – This is because, the exception thrown by the try block will be lost when finally throws the exception.
+h.      Use finally blocks instead of catch block when you are not going to handle exception.
+i.         Remember ‘Throw early and catch late’ principle – it basically says that you should throw the exception as soon as you can but catch it late, at the level where the complete information is available.
+j.        Always cleanup after handling exception – i.e., have finally block for cleanup
+k.       Throw only relevant exception from the method – i.e., if NPE is thrown then it will not give more info. So, wrap it and give more relevant exception like FileNotFoundException which will give more info to the user.
+l.         Pass all relevant info to exceptions to make them more informative as much as possible.
+66.   Best way to iterate over Hashmap - using entry set is more powerful and yields better performance as comparing to using key set for iteration
+for (Map.Entry<String,Integer> entry : testMap.entrySet()) {
+    entry.getKey();
+    entry.getValue();
+}
+Or
+Iterator<Map.Entry<String,Integer>> itr1 = testMap.entrySet().iterator();
+while(itr1.hasNext())
+{
+    Map.Entry<String,Integer> entry = itr1.next();
+    entry.getKey();
+    entry.getValue();
+}
+67.   Best way to check if the string is empty or not is, to use “string.length()==0” and not “string.equals(“”)”. Because length() method in String class is just a get method to get the count. But equals() method does lot of stuff inside.
+68.   Supressed Exceptions:
+We have seen the suppressed exceptions, where the exception of finally block suppresses the try block exception. To overcome thos, Java 7 has introduced two new methods in Throwable class.
+a.       Throwable[] Throwable.getSupressed();
+b.      Throwable.addSupressed(Throwable);
+The addSupressed() method can be used inside finally’s catch block, by adding the exception thrown by try block, which is been caught at its catch block and stored in a Throwable object. Similarly, in the main or test method, getSupressed() method can be used to get the Throwable[] object and log them.
+69.   Wrapper classes in java are immutable similar to String class. So, they maintain their own memory area to store the data to reuse them. And they create cache by allocating chunk of memory(-128 to +127 or so) and use them. But this cache memory will be reused only when the new instance are been created using valueOf() method(like Integer.valueOf(10)) or directly primitive assignment. And for “new Integer(10)”, this cache memory will not be used.
+These kind of logic are been brought, because a new instance creation takes some memory in heap which is an expensive process. So, this instance pooling is helping us to save some memory space and processing.
+70.   Java is pass by value or pass by reference? – Java is always pass by value and not pass by reference. But when we pass the objects in the method parameter then a new reference will be created pointing to that object’s same address and so both the original object and the new reference(method param) will be referring to the same content. If any new object address is referenced to the method param object inside the method then it will not reflect on the original object’s reference. But if the value of the object is been changed by the new reference(method param) then it will get reflected in the original object’s reference as well.
+For primitive data type only pass by value as like in C++ and no such reference pass by value also.
+71.   Enum is a final class and so no class can inherit it. Also all enum constants are public final static. Also two classes EnumSet and EnumMap are been added to support enums to modify, traverse, etc.
+Like,  “Map enumMap = new EnumMap(<enum class name>.class)”
+72.   Finalize() method in java is to let Garbage Collector to deallocate space after executing its statements. But GC will execute Finalize() method only once. Suppose if GC has encountered any issue while executing Finalize() then it can skip it and move ahead with its next activity. So, once again GC will not come back and execute Finalize() and deallocate that object’s memory. So, this will lead to memory leak in Java.
+Also there is no guarantee that finalize method will be executed always. To make it mandatory and to be executed at the end of our program use statement “Runtime.runFinalizersOnExit(true);” in the end of main method. So that it gets executed in our program itself. But this also is not advisable and have it only when needed.
+Also finalizers will add heavy penalty on performance to destroy the objects. So, better not to use it always.
+73.   How Garbage Collector works?
+Java does not have the concept of deallocating the memory by the user. The process called Garbage collector looks for the unused objects and cleans them up.Garbage collection solves many, but not all memory allocation problems. The timing of garbage collection is up to the garbage collector. Typically, the entire heap or a sub-part of it is collected either when it fills up or when it reaches a threshold percentage of occupancy.
+                Garbage Collector follows some of the mechanism to identify the unused objects and clean them.
+a.    Reference counting mechanism – old mechanism, where the reference count for an object is maintained in a variable and when it becomes zero then it will be considered as ready for GC. Its advantage is small amount of work while allocating a new memory i.e., just create a count variable and maintain its count. But it has major disadvantage, where if two objects refer to each other but not referred by the application then they will not be deallocated. It is called as data cycle.
+b.   Mark and sweep mechanism – This is the first GC algorithm that can solve the data cycle deallocation problem. In this, GC will first identify the default reachable objects which are generally global and local variables in stack. They are called live objects. Now using this live objects, GC will trace all its references and mark them as live. Now all the remaining are dead objects which can be GCed. While garbage collecting all dead objects, the execution of programs will be suspended for some time(also called stop the world). Once all GC is done then the programs will return to their normal state. Apart from this, in this mechanism the disk de-fragmentation also need to be done then and there.
+c.    Stop and Copy GC – In this mechanism, the whole memory will be split to two semi space and one will be used by programs and other will be used by GC. Here also the same logic of finding live objects will be done and all those live objects will be moved to another active semi space. Then the cleanup activity will be done here. Once it is done then all the objects in active semi space will be moved to the cleaned up semi space and the same will be done here. Advantage is, no defragmentation is needed, because while cleaning up the semi space that also will be done. The disadvantage is, it needs double the size of memory while moving whole objects into one semi space. Other than that it also needs to stop the world while switching between semi spaces.
+d.   Generational Stop and Copy GC – In this mechanism, the memory space will be divided in to three – young, permanent and old generation. Young generation is going to have the recently and newly created objects. Permanent will have the objects that JVM finds convenient to have garbage collector manage, such as object describing classes and methods, as well as classes and methods themselves. Old generation block will have the objects that survived for long time.
+When young generation block fills up, GC will start cleaning young generation block where in it can find lot of dead objects. And when permanent and old generation are filled up then those also will be GCed. Normally young generation will be cleaned up first, because it uses the most efficient algorithm to identify the dead objects in young generation block. And whichever survives are now moved to old generation block. Mostly old and permanent will not have dead objects as they are for longer time and will still continue to be used further. The main advantage is, we can reclaim the dead objects early by looking only at young generation without going thru the whole memory. And old and permanent need not be scanned frequently as they are for longer time and mostly no dead objects will be found often. The disadvantage is, de-fragmentation and stop the world while GC is running full scan.
+74.   Improved Exception handling in Java 7 –
+a.       If multiple exceptions need to be caught then in one single catch block we can catch them by using the pipe ‘|’ character.
+Like catch(NullPointerException | IndexOutOfBoundsException ex){ }
+b.      If the method is throwing any exceptions then we do not need to specify that in the method prototype using ‘throws’ keyword, as like in C++.
+75.   In java 7, string is supported in switch-case. Previously only integer and enum are supported.
+76.   To print arrays in string format use ‘Arrays.toString(arr) // arr is array object’ and for array of array use ‘Arrays.deepToString(arrayofarray)’.
+77.   Collections.frequency(collection object, object) – method gives the no. of occurrences of object in the collection object. This method can be used to find the duplicates in a given collection.
+78.   To make the class immutable we need the following – a)Make all fields as final and private b) don’t have any setters c) have class as final, so that no subclasses can be created and cannot override methods.
+79.   Intern() method of String class is to check if the same string is already available in string pool as determined by equals() method, and if present then it returns the existing string reference. Else it adds the string to the pool and returns the new reference. So , at any time when we do s.intern() == t.intern(), this will be true only when s.equals(t).
+80.   String str = new String(“abc”) - This version end up creating two objects in memory. One object in string pool having char sequence “abc” and second in heap memory referred by variable str and having same char sequence as “abc”.
+81.    
+ 
+ 
+ 
+Good posts:
+http://howtodoinjava.com/2012/11/11/revisiting-memory-management-and-garbage-collection-mechanisms-in-java/
+ 
+ 
+ 
+ 
+Good URLs:
+?http://tutorials.jenkov.com/java-concurrency/anatomy-of-a-synchronizer.html
+http://tutorials.jenkov.com/java-util-concurrent/linkedblockingdeque.html
+http://tutorials.jenkov.com/java-util-concurrent/index.html
+http://www.javacodegeeks.com/2011/09/java-concurrency-tutorial-callable.html
+http://sanjusoftware.wordpress.com/2007/09/07/hello-world/
+http://javarevisited.blogspot.sg/2011/05/wait-notify-and-notifyall-in-java.html
+http://javarevisited.blogspot.com.ar/2011/07/java-multi-threading-interview.html
+ 
+http://javarevisited.blogspot.sg/2011/09/fork-join-task-java7-tutorial.html
+http://javarevisited.blogspot.gr/2012/07/why-enum-singleton-are-better-in-java.html
+

@@ -1,0 +1,51 @@
+To install local jars in maven build
+ 
+In eclipse
+1. Goto Run->Run configuration
+2. double click on "Maven Build"
+3. Provide Base directory - directory structure of the project
+4. Goals - install:install-file
+5. In Parameters, add the following
+ file - C:\Users\AF37730\Downloads\db2jcc4-10.1.jar
+ groupId - com.ibm.db2.jcc
+ artifactId - db2jcc4
+ version - 10.1
+ packaging - jar
+ localRepositoryPath - C:\Users\AF37730\.m2\repository
+6. Apply and run it.
+6. After doing the above, add the dependency in the pom.xml file
+ 
+Setting in pom.xml to add all the dependent jars in the built jar
+ 
+<build>
+<plugins>
+<!-- Maven Assembly Plugin -->
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-assembly-plugin</artifactId>
+<version>2.4.1</version>
+<configuration>
+<!-- get all project dependencies -->
+<descriptorRefs>
+<descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+<!-- MainClass in mainfest make a executable jar -->
+<archive>
+<manifest>
+<mainClass>com.bala.mongo.MongoJson.controller.MongoDBReader</mainClass>
+</manifest>
+</archive>
+</configuration>
+<executions>
+<execution>
+<id>make-assembly</id>
+<!-- bind to the packaging phase -->
+<phase>package</phase>
+<goals>
+<goal>single</goal>
+</goals>
+</execution>
+</executions>
+</plugin>
+</plugins>
+</build>

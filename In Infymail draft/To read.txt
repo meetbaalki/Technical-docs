@@ -1,0 +1,48 @@
+To look at the fundamental videos of
+1.	Spring framework livelessons
+2.	Hadoop – fundamental livelesson video
+3.	Scala – fundamental livelesson video
+4.	Mongodb – Learning MongoDB video
+5.	R programming – fundamental livelesson video
+
+
+JBOSS
+LDAP authentication and authorization
+Spring transactions
+Java servlet
+Servlet session management
+Using SSL for session tracking - http://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html#Using_the_SSL_for_session_tracking_in_your_application
+SOAP service
+email with subject - 'RE: Solution Around Horizontal Scaling in Tomcat Server'
+JMS
+MongoDB - indexing, etc. PyMongodb scripts?
+Hadoop and mapreduce
+static source code analyser – fortify
+Data consistency analysis tool - profiling tool
+
+Apache storm
+Elastic search
+Calling web url from java code - refer the email thread with subject 'RE: calling the web url from java code'
+Struts
+Java SSLHandshake - how it works? solution for Java SSLHandshakeException. - refer the email thread with subject 'Java SSLHandshakeException'
+HTML parser in java - http://htmlunit.sourceforge.net/
+weblogic, websphere
+ROA
+BaaS(Backend as a service)
+Enhancing existing oracle data model - email with sub 'RE: Enhancing existing Oracle Data Model'
+Microsoft Sharepoint 2013 - what it is?
+OData service 
+Guice
+NetIQ
+Teradata
+SAP SMP3
+IBM connections
+Hybris
+Oracle Access Management
+Using SSL for session tracking - http://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html#Using_the_SSL_for_session_tracking_in_your_application
+JQuery
+JSF
+What is JCL?
+SSAS & SSIS, OLTP
+R programming
+

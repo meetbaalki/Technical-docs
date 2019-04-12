@@ -1,0 +1,63 @@
+1. Connecting Java program with MongoDB -
+
+        https://www.tutorialspoint.com/mongodb/mongodb_java.htm
+
+2. Connecting Java program with HDFS - http://www.folkstalk.com/2013/06/connect-to-hadoop-hdfs-through-java.html
+
+3. Connecting Java program with GemFire
+
+4. Invoke Java method from Scala
+
+5. MongoDB setup with configurations - including sharding
+
+6. Hadoop setup
+
+7. GemFire setup with configurations
+
+8. Spark setup with configurations
+
+ 
+
+Parallel programming with spark - https://www.youtube.com/watch?v=7k4yDKBYOcw
+
+Analyzing BigData with Twitter: Spark  - https://www.youtube.com/watch?v=rpXxsp1vSEs
+
+ 
+
+ 
+
+Spark setup -
+
+Insall spark locally on windows -
+
+    https://www.youtube.com/watch?v=VwiGHUKAHWM&index=6&list=PL7pSMJuOh5SjFytYLqiRJ9D29CYDXBrCM
+
+    https://www.youtube.com/watch?v=KvQto_b3sqw&list=PL7pSMJuOh5SjFytYLqiRJ9D29CYDXBrCM&index=5
+
+ 
+
+How to deploy spark to Mesos -
+
+    https://www.youtube.com/watch?v=iW25_dR_9EE&list=PL7pSMJuOh5SjFytYLqiRJ9D29CYDXBrCM&index=4
+
+ 
+
+Spark cluster on windows - https://www.youtube.com/watch?v=bQuoDgz9UMw
+
+ 
+
+ 
+
+List of installations
+
+1. Ubuntu - 
+
+a. Using Oracle VirtualBox - http://www.psychocats.net/ubuntu/virtualbox
+
+
+b. Normal Ubuntu installation - http://www.psychocats.net/ubuntu/installing
+
+
+ 
+
+ 

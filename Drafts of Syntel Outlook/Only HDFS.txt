@@ -1,0 +1,49 @@
+Excellent Videos about HDFS - https://www.youtube.com/watch?v=X_8LLoiznIA&list=PLjOv0CBS0xcLhG2xvM-Un2Hxji1g0ScrN&index=1
+ 
+HDFS Architecture -
+1. Master Slave architecture. It works with single active namenode and multiple data nodes. Only one name node will be active at any time.
+2. Namenode holds metadata, block location and fsimage & edit log.
+3. Metadata has info like filename, file size, no. of blocks, block Ids, User, user group, file permission, replication, block size, etc. Block Id is unique across the cluster. Metadata will get stored in main memory. It is also been stored in edit log and later get converted to fsimage. This storage n fsimage & edit log is for recovery purpose.
+4. Namenode stores only metadata and not actual data.
+5. Data nodes store data as blocks. Default block size in HDFS is 64MB and in Cloudera it is 128MB. Files are broken in to blocks and get stored in HDFS.
+6. Datanodes are workhorses of HDFS. The split blocks of the files will get stored in data nodes and 2 of its replica will be other two data nodes.
+7. The last block size of a file will always be <= block size.
+8. why blocks are replicated? for Reliable storage system.
+9. Datanodes send block report to name node. Block report is a report created by scanning all blocks on the disks. The Block report has BlockId, generation stamp and size. Generation stamp holds the block version, which will be used for append operation.
+10. Block location has details on block Id to location mapping. The Block location will get updated by block reports and HDFS write operations.
+11. In metadata, file name is mapped with block ids. In Block location, block Ids are mapped with Datanodes.
+12.Using metadata and block location, name node has complete info about the cluster.
+13. Heartbeat will be send by data nodes to name nodes. Using this info, name node will identify the list of data nodes that are active. This heartbeat will be sent on every 3 seconds. If no heartbeat is been sent by the data node then name node will wait for 10 mins and even then no heartbeat received then that data node will be marked as out of service.
+14. Heartbeat also carries disk info like total space, used space, free space, data transfer in progress, etc. These info will be used by name node while block allocation and load balancing.
+ 
+Note: Group of data nodes form a rack. One or more racks form a cluster. The HDFS cluster has both racks and name node.
+ 
+HDFS write operation -
+To do the write operation in HDFS, we need HDFS client application which will do the write operation.
+1. The write operation will be triggered by HDFS client by calling create(<file name>).
+2. This create operation will send the RPC call to name node. Here the name node will validate the file by checking if it already exists and also client has write permission or not.
+3. If the validation passes then the file info will get stored in main memory and edit log. Note that the data is still not stored in HDFS.
+4. Now client starts with the next step in write operation. It starts writing the data in its local disk for the block size or till EOF reaches. Once it creates the local copy for a block size or less than that(if EOF is reached) then client will ask for block allocation to name node.
+5. Name node looks out for the replication factor value(consider it as 3), and based on that, it returns three data node info to the client.
+6. The client will flush the data to first data node as small packets(generally packet size will be 4kb). The first data node will store the value in its block and acknowledges back to client, so that client will start sending next packet. In the mean while, first data node also sends the data to next data node which will hold replica. Once that node stores data then it sends acknowledgement and also sends to 3rd data node(as replication factor is 3). Once all 3 data nodes stored the packet successfully then all 3 acknowledgements would have reached the client. This way the data will be sent in pipeline and all 3 data nodes will get the data stored in them. Once the data of a block is been stored in data nodes then data nodes will send the info to name node asking to update block location with block details.
+7. The client will repeat the same procedure (as in #6) for remaining data and name node & datanode will update them accordingly.
+8. After writing the complete file into HDFS, client will call the close() method which informs name node that the file copy is complete.
+9. Finally name node's Metadata will hold the file info and Block location will get block info such as block id and data node details.
+10. The block and data node allocation will be taken care by name node based on the space availability and data nodes cluster balance. Another point is that data is directly written on data nodes by the client. So, the load is on data nodes and less load on name node. Hence HDFS is scalable for write operation.
+ 
+HDFS Read operation -
+1. HDFS Client library will be used for read operation as well.
+2. Open(<file name>) method is invoked at client end which will make client to send a RPC call to name node asking for block ids and data node info.
+3. The name node will get the details from its metadata and block location and returns the info to the client. The response will have details like #1[DN1, DN3, DN4], where #1 represents block 1 and it is been stored in data node 1, 3 & 4. Note that the data node list sent in the response will be in sorted order based on the distance between the client and the data nodes. This will help to reduce the network latency.
+4. The client will now communicate with nearest available data node and get the block data
+5. Similar kind of read operation might happen within HDFS where in any of the HDFS data node might need some data for processing and so it might speak to name node and gets the list of data nodes holding the data. Using this, the respective data node will be contacted and the data will be retrieved.
+6. Since clients are directly interacting with data nodes for data, at any point of time multiple clients can interact with data node and do the read operation. Hence HDFS is highly scalable.
+ 
+Block replica placement policy -
+Generally while writing the data into HDFS, the data nodes will be chosen based on the cluster balance and the space availability. Also, it will be preferred to have the replica in different rack instead of in the same rack. This is to achieve high reliability, availability and network bandwidth utilization. The network bandwidth utilization will be realized when a data node which is executing a task needs to store the data. In this case, the task will persist one copy on the same data node and remaining two copy(with RF = 3) on different data nodes in different racks. Here since the copy is in same data node the network latency will be very less.
+Care should be taken while choosing the replication factor value. Because
+1. if RF value is high then, highly reliable and available but less performance on network utilization and write performance.
+2. If RF value is less then, less reliable and available but good network utilization and write performance.
+ 
+Data Node Out of service -
+When data node is out of service then name node will identify it based on the heartbeat it receives. It will wait for 10 mins and after that it will start the process of creating another replica for the blocks which were in failed data node. This is done to maintain the RF=3 value at any point of time.

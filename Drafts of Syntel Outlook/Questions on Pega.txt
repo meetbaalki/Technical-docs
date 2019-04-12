@@ -1,0 +1,14 @@
+1. How to create a new application?
+2. How to create stages, cases under the created application? How to use activities, cases, stages? Based on your experience, is there anything which we need to consider while developing?
+3. By default, the input values will be persisted in clipboard, right? which can be accessed using the same property name, correct?
+4. On form submit, how can we validate the input values and then persist them in database.
+5. I saw that Pega uses PostgreSQL database. So, all our data will get persisted in PostgreSQL? Also, how the tables get created in databases? Can we check it?
+6. Suppose if we want to use some other databases(other than PostgreSQL) then what sort of configuration needs to be done?
+7. How can we consume a third party API using connectors? Also how to expose as REST APIs using Services.
+
+ 
+
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

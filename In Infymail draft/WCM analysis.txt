@@ -1,0 +1,23 @@
+1.	What type of WCMS? Is it for offline processing or online processing(generating HTML dynamically) or Hybrid
+2.	Availability – is it highly available?
+3.	Caching to improve performance?
+4.	Content repository? If it is a DB then how can we connect the app with DB? Using any ORM framework?
+5.	How the access control is configured? i.e., based on privileges
+6.	How scalable it is? And how scalable expansion can be done?
+7.	How easy to edit the content? Does it use WYSIWYG editing tools allowing non-technical users to create and edit content. 
+WYSIWYG (/'w?ziw?g/ WIZ-ee-wig)[1] is an acronym for "What You See Is What You Get". In computing, a WYSIWYG editor is a system in which content (text and graphics) onscreen during editing appears in a form closely corresponding to its appearance when printed or displayed as a finished product,[2] which might be a printed document, web page, or slide presentation.
+8.	Web standard upgrades - Active WCMS software usually receives regular updates that include new feature sets and keep the system up to current web standards.
+9.	How is workflow management? Workflow is the process of creating cycles of sequential and parallel tasks that must be accomplished in CMS. For eg. one or more contents can be submitted, but it will not be published until the copy editor cleans it up and editor-in-chief approves it.
+10.	Collaboration - act as a collaboration platform allowing content to be retrieved and worked on by one or many authorized users. Other advanced forms of collaboration allow multiple users to modify (or comment) a page at the same time in a collaboration session.
+11.	Document management - collaboratively managing the life cycle of a document from initial creation time, through revisions, publication, archive, and document destruction.
+12.	Content virtualization – way to see the content virtually for testing before submitting it.
+13.	Multilingual – ability to display in multiple languages
+14.	Versioning – versioning the content or pages, etc.
+15.	Key points to note for 
+a.	advantages  – cost, Easy customization, easy to use, workflow management, good for Search Engine Optimization(SEO)
+b.	disadvantages – cost of implementations and maintenance, latency issues, security, tool mixing(URLs of many CMSs are dynamically generated with internal parameters and reference information, they are often not stable enough for static pages and other web tools, particularly search engines, to rely on them)
+
+With regards,
+Balakrishnan M.
+Technology  Architect | MFGADM | Chennai MCity
+

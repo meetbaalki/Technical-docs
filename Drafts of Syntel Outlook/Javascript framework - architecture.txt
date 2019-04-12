@@ -1,0 +1,3 @@
+AngularJS Architecture - 
+https://stackoverflow.com/questions/14994391/thinking-in-angularjs-if-i-have-a-jquery-background
+https://stackoverflow.com/questions/18414012/what-does-angularjs-do-better-than-jquery

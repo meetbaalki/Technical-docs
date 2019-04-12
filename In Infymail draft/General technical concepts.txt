@@ -1,0 +1,10 @@
+Jsoup – HTML parser, useful to parse images, href, etc.
+OData fundamental understanding - http://msdn.microsoft.com/en-in/data/hh237663.aspx
+Why to use immutable class - http://www.ibm.com/developerworks/java/library/j-jtp02183/index.html
+
+
+eCommerce Analytics – analysis on web page view/visit/etc.
+1.	Google Analytics
+2.	Omniture Sitecatalyst
+3.	IBM Watson analytics
+

@@ -1,0 +1,10 @@
+How to reverse a linked list?
+1.	Exchanging the values and not pointers. Parse thru the linked and store all the values in array. Now from the first node, set the value from array in index’s descending order.
+2.	Have 3 pointers, one at the first node, other pointing the last node and a temp pointer. Now append the first node to the last node and move the first pointer to point to the second node using temp pointer while inserting. After that the second node should be inserted next to the initial last node. Do this, until the first pointer reaches the initial last pointer.
+While(first.next != last.next)
+{
+	temp = first;
+	first = first.next;
+	temp.next = last.next;
+	last.next = temp;
+}

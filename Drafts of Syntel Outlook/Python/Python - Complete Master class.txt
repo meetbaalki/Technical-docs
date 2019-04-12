@@ -1,0 +1,40 @@
+1. There is an 'else' block for 'for' loop as well. This else block will get executed if the complete for loop is been executed without any break in it, where we have an if condition to break the loop.
+2. Augmented assignment - means we can use "i +=1" instead of "i = i+1". The first code statement works efficiently than the second. Because in Python, unlike Java, for the second statement, a new temporary variable will be created and used in calculation. Hence in Python for the second statement, it will throw warning.
+3. To a string variable if we do multiplication of an integer then the same string gets repeated the integer number of times. For eg.
+         str = "abc"
+         str *= 3
+         print(str) # output - abcabcabc
+4. In python, copy of objects(lists, etc.) will copy the address. So, if any change happen on the new LHS object will get reflected in the RHS object. But if we want a new object to be created then use the constructors instead of just assignment operator.
+For eg. 
+      list1 = [7,3,5,1]
+      list2 = [2,4,6,8]
+      list3 = list1+list2 # this will concatenate both the list values and set it in new object.
+      list_odd = list1
+      list_odd.sort() # this will sort the values in both list_odd and list1, because the object is copied with '='
+      list_even = list(list2) # this will create a new object and set the values of list2 to list_even
+      list_even.sort() # this will sort only the values of list_even and list2 will be undisturbed
+
+     print(list_odd is list1) # returns true as both are referring to same address. 'is' will refer to the addresses for comparison.
+     print(list_even is list2) #returns false, as both are referring to different objects.
+     print(list_even == list2) #returns true, as '==' refers to the values and not addresses.
+5. The "==" in python will check for the values and not the addresses of the objects.
+6. a,b=5,10 # this statement sets value 5 to a and 10 to b
+7. Tuples in python are used to store heterogenous values in array i.e., can store values of different types. Tuples hold immutable values i.e., the values of each array element cannot be changed but the reference to the array item can be changed.
+      t = "My","first","tuple"
+      t[1] = "second" # this throws error, as we cannot change the value of elements in tuple
+      t = t[0],"second",t[2] # this works, as we are changing the reference of the tuple
+
+      text1,text2,text3 = t # this will set values to each element from the tuple t. i.e., text1="My", text2="second" and text3="tuple".
+8. Cannot append any value to tuple object. But suppose if a tuple has a list as one of the element then the list content can be changed by appending values into the list.
+9. In Python, Strings are immutable.
+10. Dictionary in Python is nothing but an unordered map with key:value pair representation. Two dictionaries can be combined using an "update" function.
+      dict1.update(dict2) # appends content of dict2 to dict1
+      new_dict = dict1.copy() # this will create a copy of dict1 and set to new_dict
+11. The code
+           for str in str_list:
+               new_str += str + ","
+      can be replaced with the efficient below code
+           new_str = ",".join(str_list) # usage of join method
+      The above approach will never create new string variables as string are immutables in Python and also reduces the number of lines. Hence it is more efficient.
+12. Set in Python holds immutable objects, unordered objects and non-duplicate values. The set can be created using the set() constructor. We can use union, intersection actions on set objects.
+

@@ -1,0 +1,30 @@
+Iterator pattern – 
+1.	Define interfaces – Iterator with hasNext() and next() methods
+2.	Define a concrete Iterator class for the respective collection implementing the Iterator interface.
+3.	Create a method named getIterator() in the collection class, for which iterator is needed. This method should return the object of its concrete iterator.
+
+Visitor pattern – 
+1.	Define an interface and its concrete class with list of visit() methods accepting the respective concrete class object for whom the dynamic behavior is needed.
+2.	Define an interface for the business logic class and its concrete class with a method to accept concrete visitor object as parameter. Now inside that method call concrete visitor’s visit method like visit(this) to invoke its respective logic.
+
+Template method pattern – 
+1.	Define an abstract class for template class with some abstract methods(to be implemented by concrete classes) and a template method which has the logic of calling those abstract methods in a respective sequence. So, this sequence is fixed for all concrete classes as well.
+2.	Define concrete classes extending from abstract class and implement the abstract methods.
+
+State pattern – 
+1.	Define an interface state with the list of action methods common for all states. Now define the concrete state classes aggregating context class object and implement the business logic specific to the state’s action along with it set the next state value(by calling like context.setState(nextstate)) and for the remaining methods define a dummy logic.
+2.	Create a concrete context class who does
+a.	Declare all the state class objects at class level. Also declare a variable for State interface to hold the state object.
+b.	In its constructor instantiate all the state class objects and set them to their class level variables.
+c.	Initialize the state object of interface with the starting state object.
+d.	Have the method which has business logic which can invoke the list of action methods of state sequentially. Based on the business logic and input given to the state’s action method, the next state will be decided and the respective output(dummy or correct) will be returned.
+3.	In client define context object and call its business logic method. 
+
+Builder pattern – 
+1.	Create a respective concrete classes that are needed to merge/join in forming the complex object.
+2.	Create a builder interface and the concrete classes where in we can compose the concrete objects of smaller object classes and invoke the logic to create the complex object.
+
+Observer pattern – 
+1.	Create a Subject class which has the arraylist to hold the observers subscribed. Also the get and setState methods. The setState method should have the logic of setting the new value and notify the observers. Notifying the observer in the sense, calling the observer’s update/edit method using the list of observer object that are subscribed.
+2.	Have an observer interface with subject object aggregated and the concrete observer classes. Have the logic of subscribing to the subject by calling the add or subscribe method of subject from the constructor/init method.
+

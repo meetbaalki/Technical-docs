@@ -1,0 +1,8 @@
+DB Query optimization Techniques – step by step approach
+1.	Look at the DB Schema and see if it makes sense
+2.	Only query what you really need
+3.	Add, remove or modify indexes
+4.	Move Queries to Stored Procedures (SP)
+5.	Remove unneeded Views
+6.	Tune DB settings
+7.	Using Query Analysers

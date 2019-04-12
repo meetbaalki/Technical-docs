@@ -1,0 +1,229 @@
+                                                        REST
+
+RESTful design principle
+
+REST is optimized for web and so HTTP is typically used.
+
+1. Client Server communication - Applications built in RESTful style must also be client server in principle. HTTP is a client server protocol
+
+2. Stateless - using HTTP methods GET, POST, etc. help us getting stateless feature
+
+3. Cacheable - HTTP provides caching mechanism
+
+4. Uniform interface - All components must interact thru an uniform interface
+
+5. Resource and Resource Identifier - A resource can be identified using URI and each resource will be represented in a media type, like XML, JSON, etc. Resource representation can also have links(URIs) to other resources
+
+ 
+
+REST vs SOAP
+
+1. REST is architectural style and design for network based software architectures. SOAP is a communication protocol.
+
+2. REST is protocol independent, it is not coupled with HTTP. REST application can use any protocol that supports standardized URI scheme. For eg. REST can be used with FTP as well.
+
+3. REST concepts are resources and representation of resources must be stateless.
+
+4. Resources are represented via media type like XML, JSON, etc.
+
+5. REST is as standardized as the parts you are using. Security and authentication are standardized in HTTP and so you use them for REST over HTTP.
+
+6. REST supports HATEOAS
+
+ 
+
+Best frameworks for RESTful service development
+
+1. Dropwizard - Java framework to develop ops-friendly, high performance web service. Developed by Yammer.It has out of box support for application configuration, application metrics, logging, operation tools, etc. It uses
+
+    Jetty for HTTP
+
+    Jersey for REST
+
+    Jackson for JSON
+
+    Metrics for metrics
+
+2. Jersey - the standard framework with JAX-RS libraries. Framework with upto date JAX-RS libraries.
+
+3. RESTEasy - Developed by JBoss and uses JAX-RS implementations.
+
+4. Spring REST - Best fit when using Spring framework for development.
+
+5. Jello framework - Jello is an end-to-end Java framework optimized for Google app-engine. It follows OData specifications.
+
+6. Apache CXF - uses JAX-RS implementation and can be used with Spring IOC.
+
+ 
+
+Apache CXF
+
+Apache CXF is a open source webservice framework which contains JAX-WS and JAX-RS and also it helps to integrate with spring framework. 
+CXF Supports
+1) XML , JSON Format
+2)JAXB Data Binding
+3) SAOP ,REST,HTTP protocal binding
+
+                                                APM tool and Performance Monitoring
+
+Performance Monitoring
+
+http://karunsubramanian.com/websphere/top-10-reasons-why-your-enterprise-java-application-is-slow/
+
+ 
+
+why Application Performance Management is needed in production?
+1. To know the incoming request count to the application. To identify the sudden spike in the input request. If we dont have APM tool then atleast can start looking at the DB insert count on a periodic basis and do the monitoring.
+2. To monitor response time of other dependent systems. This will help us in identifying the reason for application slowness.
+3. To identify whether JDBC calls are running slowly, because the query execution is taking time.
+4. Find out if available DB connections are insufficient, which might slow down the application processing.
+5. Find out if ThreadPool has sufficient number of threads for processing
+6. Monitor the infrastructure , to identify if any hardware resources are utilizing CPU mostly, which would slow down our application performance. Use tools liek Nagios to monitor the infrastructure.
+
+ 
+
+Is running APM tool in production impact Application performance?
+
+Yes, but it will be negligible(<=1%) when you use proper APM tool. Appdynamics and Dynatrace are suggested by many. Though they impact 1% of performance, the benefit we are going to get out of them is huge. It helps us in finding out major flaws which might help us in rolling back and deploy the corrected application after fixing the bug. So, it is recommended to have APM tool in production until the application is declared stable and no more monitoring is needed. But again, if the application undergoes enhancements then APM tool is needed. Because whatever may be the load(less or spike during peak time) to the application the APM tool will have the same CPU usage value(1%).
+
+ 
+
+                                                        Caching framework
+
+Memecached
+
+1. Clustering done based on sharding architecture. But no replica in place.
+
+2. Big-O - Memcache always works on complexity of O(1). With this approach we have the drawback of fetching multiple or sequential data, as it wont support. But Memcache being a cache, will get request for fetching individual data and so stick with it.
+
+3. LRU algorithm - Least Recently Used algorithm. Memcache asks for its memory space while installation and after that will start using that space for its storage.
+
+4. Memory allocation - Memcached is developed using C language and so memory allocation can happen using malloc(), free() and realloc() functions. But Memcache don't use all this function, as it uses its own mechanism to manage the memory. Using malloc() (as like in Placement New), it allocates the whole memory and after which it breaks them into slabs and use to store data.
+
+5. Slab allocation - The memory allocated by memcache will be broken into partitions called pages. Each page could be of 1MB large. Each page will get broken down into chunks based on the object size which it stores. A page can have 64 Bytes chunk or 128 Bytes chunk. But cannot with combination of 64 and 128 bytes chunk. Suppose, if the object size is 100 bytes then it will get stored in 128 bytes chunk, but the 28 bytes will be unused.
+
+ 
+
+Redis
+
+1. Redis is a in-memory database that can be used as caching framework. It provides Lua scripting like Redis's own SQL or stored procedures. It supports persistence or backing up of data in disk. In Memcached, the restart of server will lost all data, as it wont support back-up of data.
+
+2. The persistence of data in disk has many options. i.e., to sync-up real time we can configure as AOF(Append Only File) and in other cases, the data in RAM will be synced up with disk but with some lag.
+
+3. It supports multiple data structure unlike Memcached(which supports only Strings). The data structures like Strings, Lists, Hashes, Sets, Sorted Sets, Geo, BitMap, etc. are supported.
+
+4. The clustering is done with sharding architecture. The nodes data are splitted based on the hash code ranges.
+
+4. Further the data replication is done with Master-Slave architecture. The master will be the node in cluster and it inturn will have slave nodes which are the replica of master node. So, here too the sync-up between master-slave will lead to eventual consistency. But we can configure it to sync-up master and slave before master responds back for the write operation.
+
+5. Redis has commands to support pub/sub functionality. So, Redis can be used as Message Queues as well.
+
+6. In Redis, the value in key-value pair can store data upto 512MB, but in Memcached it is only 1MB.
+
+ 
+
+Memcached vs. Redis
+
+Redis has much more features than Memcached and so it is always preferred. But Memcached can be used in the case where you want things to be simple, reliable, string as data type and speedy.
+
+ 
+
+ 
+
+                                                                   ELK stack
+
+ 
+ElasticSearch
+1. ElasticSearch is a NoSQL database, which stores data in a unstructured format. Unlike NoSQL DB, ElasticSearch has strong focus on search capabilities using REST API.
+2. Adding data into ElasticSearch is called indexing. i.e., when data is feed into ElasticSearch, the data will be placed into Apache Lucene indexes. POST and PUT HTTP methods can be used to store data.
+3. For reading data, we use GET method of REST API. The GET method provides option to search data by providing parameters "_search". Like "curl -X GET http://localhost:9200/logs/_search?q=logged". Here the query is to search for a text logged in the available data, under index "logs", which is given in the URI.
+4. similarly for removing the data, DELETE method will be used.
+And this ElasticSearch will be deployed in cluster mode.
+ 
+Logstash
+1. Logstash is an integral part of data workflow from source to ElasticSearch. It also has capabilities to filter, massage and shape the data in a format.
+2. Configurations
+    Input and Output - The Input and output source of Logstash must be configured
+    Filters - the configuration to filter out the input. Here we can apply Grok filter to events.
+ 
+Kibana
+1. It is a visualization layer which is the most popular log analytics platform.
+2. We can load the data to Kibana by invoking the REST API of ElasticSearch by passing the search params.
+3. Once the data are retrieved from ElasticSearch, in Kibana we need to filter out the data based on condition, like success and failure cases, etc. For this Kibana provides search option, like free-text search, field level search, etc.
+4. Create a registry in Kibana for each data representation in which all the details will be specified.
+ 
+On top of all this, the better architecture for ELK stack is
+ 
+clients --> Redis --> Logstash --> ElasticSearch --> Kibana --> Nginx --> Front viewer
+                                                                cluster
+ 
+Here, clients are the multiple sources from where data will be passed in. These data will get stored in Redis, from where Logstash can read the data and pass it on to ElasticSearch. Kibana using the configuration fetches the data and creates the UI representation. To manage the access to the UI application, we can have a reverse proxy Nginx to take care of Load balancing and authentication.
+ 
+                                                                                                                                Message Queues
+ActiveMQ
+How it works -
+The publisher when publishes the messages the brokers will consume those and passes it to the other end where subscriber will be waiting. There could be more than one brokers in between based on the network. Suppose, if the publisher is in one LAN and subscriber on another LAN then there could be minimum 2 brokers each in one LAN.
+1. It follows two types of architecture, which needs to be configured to choose the right one for our requirement.
+    a. Master/Slave for high availability - Here the brokers will follow master/slave architecture where in the master will be active broker and its copy will be maintained in the slave. So, at any point of time, if the master fails then slave will take care of the message distribution. The replication will happen immediately so that the messages will never be lost. It best suits for distributed queues and topics and provides high availability.
+    b. Store and forward networks of brokers - Here the message will be persisted in the broker's store and from there the messages will be forwarded to other brokers with whom the subscribers have subscribed. suppose if the broker at the publisher end goes down then till it comes up the messages will be in store and after it is up those messages will be sent to the other end brokers. Hence high availability will be missing here.
+ 
+In case of queues, in the above architecture process, the messages will be sent to the receiver side broker and no copy will be maintained in RAM or store. And for topics, the copy of the messages will be sent to the receiver end brokers.
+ 
+Core architecture - The core architecture consists of Artemis server. So, when a user application sends messages via JMS to ActiveMQ then the JMS Façade will interact with core client by invoking the client API, which in turn using the core protocol(like AMQP, OpenWire, Stomp) talks to the Artemis server via ProtocolManager.
+ 
+Artemis server manages the broker instances of ActiveMQ. It also takes care of security and other tasks as well.
+ 
+                                                                                                                        CAP theorem
+MongoDB - This falls under CP category. The reason is MongoDB works with single primary and secondary nodes(for replica). So, only the primary will always be used for write operation and secondary for read operations. Suppose, in the network if the primary goes down then the secondary nodes cannot take a decision to select a primary among them. Hence the write operations will not be performed until the primary is up/selected. Hence it provides consistency, as whatever the write operation performed till now, its data can be read from secondary nodes.
+Cassandra - This falls under AP category. Because, in Cassandra the list of nodes which is going to hold the data(including replicas) will be of equal importance. Suppose if we have replication factor as 3 then at any time any of that 3 can act as primary. Or which ever is near by out of 3 can become primary and do the write operation. So, here availability is given high importance.
+ 
+                                                                                                                            Spring
+Difference between Dependency Injection and Inversion of Control
+IoC is a generic term meaning rather than having the application, call the methods in a framework, the framework calls implementations provided by the application.
+DI is a form of IoC, where implementations are passed into an object through constructors/setters/service lookups, which the object will 'depend' on in order to behave correctly.
+ 
+                                                                                                                                Java
+1. Hashing algorithm in HashMap and HashTable -
+Hashtable uses the 'classical' approach of prime numbers: to get the 'index' of a value, you take the hash of the key and perform the modulus against the size. Taking a prime number as size, gives (normally) a nice spread over the indexes (depending on the hash as well, of course).
+HashMap uses a 'power of two'-approach, meaning the sizes are a power of two. The reason is it's supposed to be faster than prime number calculations. However, since a power of two is not a prime number, there would be more collisions, especially with hash values having the same lower bits.
+2. Maps - Maps don't support streams. Only other collections support streams.
+3. Semaphore - Semaphore in Java works by acquiring and release the locks. The initial value set while creating semaphore decides whether the thread can acquire the lock immediately or not. If the initial value is greater than zero then thread can acquire the lock. Else if equal to zero then it waits until the semaphore.release() is been called by some one. This way we can set the precedence like who should start first, etc. This can be well suited in producer-consumer problem.
+http://www.geeksforgeeks.org/producer-consumer-solution-using-semaphores-java/
+ 
+ 
+nginx
+Have configured nginx to act as a reverse proxy for tomcat servers. It acts as a load balancer for those servers. To do this, in nginx.conf file, set the proxy details with the tomcat server details. The tomcat servers also should be configured with the same details in server.xml file of tomcat.
+And for authentication in nginx, create a password file with content as username:encrypted password. Now in the nginx.conf file, set auth_basic properties as restricted content and map the password file created.
+ 
+                                                                                                                JavaScript frameworks
+node.js architecture
+node.js works based on single threaded event loop architecture. Here the node.js server will have event queue which gets the client request queued into. The event loop has a single thread which reads each request from the event queue and try to process it. Generally, in web request there would be some business logic associated for each client request. The node.js server maintains a thread pool which will take care of business logic processing for its input request. The event loop's thread will pass on the input to the thread pool's available thread along with callback function to process the request and after which to invoke the callback function. The event loop's thread once receiving back the response from thread pool's thread via callback function, will pass the response back to the client.
+ 
+AngularJS - How it works
+Following are key method invocations that happen as part of initializing angular app and rendering the same.
+1. angularInit method which checks for ng-app module
+2. bootstrap method which is invoked once an ng-app module is found. Following are key invocations from within bootstrap method:
+    a. createInjector method which returns dependency injector. On dependency injector instance, invoke method is called.
+    b. compile method which collects directives
+    c. Composite linking method which is returned from compile method. Scope object is passed to this composite linking method
+    d. $apply method invoked on scope object finally does the magic and renders the view.
+ 
+                                                                                                                            Architecture
+1. Multi-tenancy - It is an architecture in which single instance of an application can serve multiple customers. Here customers are called as tenants. The tenants also can get some customization option thru configurations.
+2. Shared-Nothing architecture - The distributed computing architecture where each node will be independent and self-sufficient. It never depends on other nodes. Google call this as Sharding.
+3. Multi Version Concurrency Control(MVCC) - It is a concurrency control method used in DBMS to provide concurrent access to database. Generally when the database is modified by a writer thread then the reader thread to read the modifying data should wait until the writer completes. This is called read-write lock. MVCC is similar to fail-safe mechanism, where the readers will get a copy of the data(without writer's modification) until the writer completes.
+ 
+                                                                                                                                APIGEE Architecture
+1. It has four major components - Router, Message processor, Management server, Analytics services
+    a. Router - takes the incoming requests and dispatches it. It hanldes SSL traffic and using virtual host name, port and URI passes the request to appropriate Message processor node.
+    b. Management server - This takes care of authentication, gathering actual URI info and updating analytics services.
+        i. authentication - openLDAP is used for authentication.
+        ii. Cassandra database has the application configurations, distributed quota  counters, API keys and OAuth tokens for the application running on gateways. These info will be used to compose the actual URI
+        iii. Zookeeper - It contains the configuration data about the services in the zone and also notifies different servers for any configuration changes.
+    c. Message processor - the component which takes care of passing the API request to Management server and finally using the actual URI(from Management server) calls the backend services
+    d. Analytics - PostgreSQL is used to store the analytics info.
+ 
+Regards,
+Balakrishnan M.
+
+"WINNERS DON'T DO DIFFERENT THINGS. THEY DO THINGS DIFFERENTLY"

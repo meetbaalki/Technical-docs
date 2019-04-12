@@ -1,0 +1,97 @@
+http://w3af.org/ - w3af for security vulnerabilities
+Also kolcwork can also be used for the same - https://wiki.jenkins-ci.org/display/JENKINS/Klocwork+Plugin
+
+Jenkins:
+1.	Setting up Jenkins.
+a.	Download Jenkins.war file 
+b.	Run “java –jar Jenkins.war” or place this war file in tomcat’s webapp directory
+c.	Now access Jenkins from “http://localhost:8080/”
+d.	To change the port number other than 8080, then open “C:\Users\balakrishnan_m04\.jenkins\jenkins.xml” file and edit the port number as 8083 or with other value. Also make the same change in jenkins.model.JenkinsLocationConfiguration.xml file present in the same path. Restart Jenkins service.
+e.	Configure Jenkins by giving jdk, maven details. Like providing jdk home path, maven’s settings.xml file path, etc.
+f.	Secure Jenkins by adding new user group and create a new user account.
+g.	Create a new job and set the maven, jdk details as default.
+Reference: http://www.vogella.com/tutorials/Jenkins/article.html
+
+Some of the .hpi files of Jenkins plugin can be found at https://github.com/henrysher/fedora-infra-ansible/tree/master/files/jenkins/master/plugins
+
+Sonar: 
+Sonar is an open source Platform used by development teams to manage source code quality. Tool to know the code complexity.
+1.	Download sonarqube-4.5.4.zip from www.sonarqube.org/downloads/
+2.	Unzip sonarqube-4.5.4.zip file and ran “StartSonar.bat” file from “bin/windows-x86-32” directory. For 64-bit windows get into the respective directory.
+3.	Execute “localhost:9000” from browser and the sonar page will get displayed.
+4.	Now in Maven’s settings.xml file add the following
+a.	Under <profiles> tag add - 
+  <profile>
+   <id>sonar</id>
+   <activation>
+      <activeByDefault>true</activeByDefault>
+   </activation>
+   <properties>
+    	<sonar.host.url>http://localhost:9000</sonar.host.url>
+	<sonar.language>java</sonar.language>
+   </properties>
+</profile>
+b.	In <activeProfiles> add the sonar profile like
+  <activeProfiles>
+       	<activeProfile>sonar</activeProfile>
+  </activeProfiles>
+5.	Do “mvn clean install” for the project
+6.	Then do “mvn sonar:sonar” to execute sonar.
+7.	Now check the sonar report for the project from “localhost:9000”
+admin/admin
+
+Integrate Sonar with Jenkins:
+1.	Go to “Manage Jenkins” and then “Manage plugins”. 
+2.	Inside “Manage plugins”, if sonar is not available under “Available” tab then go to “Advanced” tab and in which click “Advanced” button.
+3.	In the meanwhile, download the “.hpi” file from https://updates.jenkins-ci.org/download/plugins/ and upload that under “Upload Plugin” section.
+4.	Now the sonar will get installed in Jenkins.
+5.	Go to project’s configure link and in it, select the “post build step” and add sonar there.
+6.	That’s it. Now when we run the build, after build creation sonar tool will get executed and the report will be created.
+7.	But the problem here is, since we did not create a new database, at a time one single project report will be available and no history will be maintained. Every time the old project data will get overwritten with the new project info.
+
+Git: 
+1.	Setting up Git
+https://help.github.com/articles/set-up-git/
+https://help.github.com/index.html
+
+Cobertura: Tool to get the code coverage
+To get the code coverage we need the junit programs for the application.
+1.	Now add the following plug-ins in pom.xml
+    <reporting>
+		  <plugins>
+			<!-- Normally, we take off the dependency report, saves time. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+		 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
+				</configuration>
+			</plugin>
+		 
+		   </plugins>
+	</reporting>
+2.	Run mvn cobertura:cobertura
+3.	Now the cobertura report would be generated and stored at {project dir}/target\site\cobertura/index.html
+To integrate cobertura with Jenkins for above project – 
+1.	Go to “Manage Jenkins” ?”Manage plugins”
+2.	Go to Advanced tab and provide the .hpi file under “Upload Plugin” section
+3.	To download .hpi file – go to http://updates.jenkins-ci.org/download/plugins/cobertura/ and click “permalink to the latest” link. It will start downloading the .hpi file
+4.	Now cobertura plugin would be installed and that can be found under “Installed” tab.
+5.	Go to project’s configuration and under “Post-build Actions”  enable “Publish Cobertura Coverage Report” and provide “Cobertura xml report pattern” as “**/target/site/cobertura/coverage.xml”. This pattern is provided as we are using Maven here. For Ant build we need to use different value.
+6.	Also under Build section, provide the “Goals and options” as “clean install cobertura:cobertura -Dcobertura.report.format=xml”. Again this is for Maven build.
+
+Reference - https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin#CoberturaPlugin-ConfiguringtheCoberturaPlugin
+

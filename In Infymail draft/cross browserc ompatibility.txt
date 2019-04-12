@@ -1,0 +1,25 @@
+In H-D:
+1.	HTML 4 and CSS 2
+2.	No tables and only tiles are used to plug in the jsp components. Not sure about the usage of HTML layout with Div & SPAN
+3.	JQuery is used very less and only for few javascript and not for CSS.
+4.	Already QA used to test the pages in IE, Firefox and Chrome browsers, but might be in older versions
+
+General practice
+1.	Follow HTML standards and latest CSS
+2.	Use proper CSS frameworks to get browser support in both latest and older versions
+3.	Use JQuery for CSS to get better support in all browsers. But again JQuery is supported only in latest browser versions.
+
+URLs:
+http://stackoverflow.com/questions/8726299/web-application-that-supports-in-all-the-browsers 
+http://rafael.adm.br/css_browser_selector/
+http://www.allapplabs.com/tiles/tiles_web_page_layouts.htm 
+http://www.tutorialspoint.com/html/html_layouts.htm
+
+Online tool to test the display - http://browsershots.org/ - This tests the display in various browsers of different versions and provide the screen shots in the same page.
+
+Use http://www.appcelerator.com/product/ to get the metrics on what are the changes to be done for cross browser compatibility.
+
+
+With regards,
+Balakrishnan M.
+

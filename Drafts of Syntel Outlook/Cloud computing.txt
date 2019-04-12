@@ -1,0 +1,14 @@
+Planning and Designing cloud infrastructure  - https://www.youtube.com/watch?v=NqGjklBovaI
+ 
+Four pillars for designing cloud based applications
+1. Security
+2. Reliability
+3. Performance efficiency
+4. Cost optimization
+ 
+cloud computing design patterns - https://msdn.microsoft.com/en-in/ - inside problem areas in cloud, you can navigate and look out for design patterns
+ 
+J2EE design patterns - http://www.j2eebrain.com/java-J2ee-j2ee-design-patterns.html
+ 
+ 
+http://cloudacademy.com/blog/cloud-foundry-benefits/

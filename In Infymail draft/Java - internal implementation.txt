@@ -1,0 +1,144 @@
+Why and when to use immutable class - http://www.ibm.com/developerworks/java/library/j-jtp02183/index.html
+Immutable classes can be used in cache memory design. Since cached data will get shared between multiple client there is always a risk, where one client's action would affect all other client.
+Why string is immutable in Java - http://javarevisited.blogspot.in/2010/10/why-string-is-immutable-in-java.html
+How Substring in java works - http://javarevisited.blogspot.sg/2011/10/how-substring-in-java-works.html
+Marker interfaces in Java - http://javarevisited.blogspot.in/2012/01/what-is-marker-interfaces-in-java-and.html
+
+JDBC -traversing on the resultset cannot be done offline i.e., cannot traverse the ResultSet without having the database connection open.
+
+How to make a class as immutable? – 1)No setter methods 2)Have all fields as private and final 3) have the class as final to avoid sub-classing 4)special attention when having mutable instance variables i.e., if the class has a data member which is mutable object then while returning that object thru getters, create a new instance and return it.
+
+How to design a good key for a hashmap? – 1) the key object should be immutable 2) Also the key object’s class must honor the hashcode() and equals() methods contract.
+
+Good question on enhanced for loop - http://www.xyzws.com/Javafaq/why-final-variable-in-enhanced-for-loop-does-not-act-final/160
+
+How memory allocation happens in ArrayList? – For ArrayList the object references are stored in contiguous memory, but the object can be at any memory location. So, in future if the array size needs to be increased then the next contiguous memory to store the reference will be allocated and the copying of existing references will be done.
+
+How memory allocation happens in Hashmap? - A hashmap is always an array where the hashcode can be determined to get the index of the array element(In jdk this is the entry) and the value in array will be key+value. Therefore, it should take a contiguous memory as well. In hashmap null value is accepted and that will get stored in the zero-th index of the array.
+Suppose, if the same hashcode is been generated for different keys then the bucket will maintain a linked list to which the values will be stored as key+value.
+
+Advantages of Hashmap over ArrayList – 
+The ArrayList has O(n) performance for every search, so for n searches its performance is O(n^2).
+The HashMap has O(1) performance for every search (on average), so for n searches its performance will be O(n).
+While the HashMap will be slower at first and take more memory, it will be faster for large values of n.
+The reason the ArrayList has O(n) performance is that every item must be checked for every insertion to make sure it is not already in the list. We will do n insertions, so it is O(n^2) for the whole operation.
+The reason the HashMap has O(1) performance is that the hashing algorithm takes the same time for every key and then the lookup to find the key also takes constant time. There can be occasions when the hash table exceeds its load factor and needs to be reallocated, and that it why it is constant on average.
+So finally, to answer your question, my advice is to use the HashMap.
+
+Why String is immutable?
+1.	Imagine String pool facility without making string immutable , its not possible at all because in case of string pool one string object/literal
+2.	String has been widely used as parameter for many Java classes e.g. for opening network connection, you can pass hostname and port number as string , you can pass database URL as string for opening database connection
+3.	The absolutely most important reason that String is immutable is that it is used by the class loading mechanism, and thus have profound and fundamental security aspects.
+4.	Since String is immutable it can safely share between many threads and can be used for caching.
+
+Why char[] is better than String for storing password? 
+1) Since Strings are immutable in Java if you store password as plain text it will be available in memory until Garbage collector clears it and since String are used in String pool for reusability there is pretty high chance that it will be remain in memory for long duration, which pose a security threat. Since anyone who has access to memory dump can find the password in clear text and that's another reason you should always use an encrypted password than plain text. Since Strings are immutable there is no way contents of Strings can be changed because any change will produce new String, while if you char[] you can still set all his element as blank or zero. So Storing password in character array clearly mitigates security risk of stealing password.
+2) Java itself recommends using getPassword() method of JPasswordField which returns a char[] and deprecated getText() method which returns password in clear text stating security reason. It is good to follow advice from Java team and adhering to standard rather than going against it.
+
+Do you know how substring works in Java? If you look substring method inside String class, you will figure out that it calls String (int offset, int count, char value []) constructor to create new String object. What is interesting here is, value[], which is the same character array used to represent original string. So what's wrong with this?
+In case If you have still not figured it out, If the original string is very long, and has array of size 1GB, no matter how small a substring is, it will hold 1GB array.  This will also stop original string to be garbage collected, in case if doesn't have any live reference. This is clear case of memory leak in Java, where memory is retained even if it's not required. That's how substring method creates memory leak.
+
+
+In which memory area string pool resides?
+String pool resides in runtime constant pool or PermGen(heap memory but with fixed size), which is a memory area allocated on a per-class or per-interface basis, so it's not tied to any object instances at all. This is until Java 6. From Java 7, they are moved to general heap memory itself.
+String.intern() in Java 6
+In those good old days all interned strings were stored in the PermGen – the fixed size part of heap mainly used for storing loaded classes and string pool. Besides explicitly interned strings, PermGen string pool also contained all literal strings earlier used in your program (the important word here is used – if a class or method was never loaded/called, any constants defined in it will not be loaded).
+The biggest issue with such string pool in Java 6 was its location – the PermGen. PermGen has a fixed size and cannot be expanded at runtime. You can set it using -XX:MaxPermSize=96m option. As far as I know, the default PermGen size varies between 32M and 96M depending on the platform. You can increase its size, but its size will still be fixed. Such limitation required very careful usage of String.intern – you’d better not intern any uncontrolled user input using this method. That’s why string pooling at times of Java 6 was mostly implemented in the manually managed maps.
+String.intern() in Java 7
+Oracle engineers made an extremely important change to the string pooling logic in Java 7 – the string pool was relocated to the heap. It means that you are no longer limited by a separate fixed size memory area. All strings are now located in the heap, as most of other ordinary objects, which allows you to manage only the heap size while tuning your application. Technically, this alone could be a sufficient reason to reconsider using String.intern() in your Java 7 programs. But there are other reasons.
+String pool values are garbage collected
+Yes, all strings in the JVM string pool are eligible for garbage collection if there are no references to them from your program roots. It applies to all discussed versions of Java. It means that if your interned string went out of scope and there are no other references to it – it will be garbage collected from the JVM string pool.
+Being eligible for garbage collection and residing in the heap, a JVM string pool seems to be a right place for all your strings, isn’t it? In theory it is true – non-used strings will be garbage collected from the pool, used strings will allow you to save memory in case then you get an equal string from the input.
+
+How the memory allocation happens with ‘String s = new String(“abc”)’
+In this case, the new operator will create a new memory in heap. But the constructor of String class accepts String as parameter and so an allocation will happen in String pool and that reference value(address in string pool) will be stored in heap memory.
+
+Static values(variables, methods) get stored in permanent generation section along with class related data, class methods, non-instance related.
+
+Java memory model contains two sections – Thread stack and heap. The thread stack holds the data about the method it calls and the local variables of the method. The thread stack holds the copy of all local variables of the methods it call. Like, if the current method has an object using which the object’s method is been called then the local variables of that object’s method will also be stored in thread stack. Each thread will have its own stack.
+
+How intern() method of String class works?
+Since Strings are objects, the equals(Object) method will return true if two Strings have the same contents, i.e., the same characters in the same order. The == operator will only be true if two String references point to the same underlying String object. Hence two Strings representing the same content will be equal when tested by the equals(Object) method, but will only be equal when tested with the == operator if they are actually the same object.
+To save memory (and speed up testing for equality), Java supports “interning” of Strings. When theintern() method is invoked on a String, a lookup is performed on a table of interned Strings. If a String object with the same content is already in the table, a reference to the String in the table is returned. Otherwise, the String is added to the table and a reference to it is returned. The result is that after interning, all Strings with the same content will point to the same object. This saves space, and also allows the Strings to be compared using the == operator, which is much faster than comparison with the equals(Object) method.
+
+HashMap 
+1.	In java, hash code will be generated twice for a value, to get a better hash value. i.e., initial hash value will be generated and that generated value will be used again to generate a hash value for it, to get more uniqueness.
+2.	We have buckets which will be used to store hash values and their values as key-value pair. The bucket implementation is like a array-list, where for each bucket will be associated with a hash value, which in turn has linked list from there on. So, if we get same hash value for more than one value then those values will be stored in the linked list of that bucket. So, while getting the value, need to find out the exact bucket and from there on parse the linked list to get the exact value. The node of linked list will have the data like key, value, etc.
+Ref - http://javahungry.blogspot.com/2013/08/hashing-how-hash-map-works-in-java-or.html
+
+HashSet
+In java, HashSet stores only unique value and will not allow duplicates. Though this uses HashMap internally, the uniqueness is been identified like
+1.	In set, we do not maintain like key-value pair. So, for every value that needs to be stored in HashSet, the value will  be stored as key and a dummy object will be stored as value.
+public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, java.io.Serializable
+{
+    private transient HashMap<E,Object> map;
+    
+    // Dummy value to associate with an Object in the backing Map
+    private static final Object PRESENT = new Object();
+    
+    public HashSet() {
+        map = new HashMap<>();
+    }
+    
+    // SOME CODE ,i.e Other methods in Hash Set
+    
+    public boolean add(E e) {
+        return map.put(e, PRESENT)==null;
+    }
+}
+2.	So, here a static final object is been created and stored in PRESENT. This is then used as value for all the keys that are to be stored in internal HashMap. 
+3.	Whenever, “map.put(key, value)” is been called, it returns null if such key is not found, or else will return the existing value for that key in HashMap. So, the add(…) method of HashSet returns true if the “map.put(key,value)” returns null, as the key is not a duplicate. Or else returns false for duplicates.
+Ref - http://javahungry.blogspot.com/2013/08/how-sets-are-implemented-internally-in.html
+
+Some of the hashing algorithms are – MD5, SHA-0, SHA-1, SHA-2, SHA-3. SHA stands for Secure Hash Algorithm.
+Some of the encryption algorithms are –
+1.	DES - This is the 'Data Encryption Standard'. This is a cipher that operates on 64-bit blocks of data, using a 56-bit key. It is a 'private key' system.
+2.	RSA - RSA is a public-key system designed by Rivest, Shamir, and Adleman. 
+3.	HASH - A 'hash algorithm' is used for computing a condensed representation of a fixed length message/file. This is sometimes known as a 'message digest', or a 'fingerprint'..
+4.	MD5 - MD5 is a 128 bit message digest function. It was developed by Ron Rivest. 
+5.	AES - This is the Advanced Encryption Standard (using the Rijndael block cipher) approved by NIST.
+6.	SHA-1 - SHA-1 is a hashing algorithm similar in structure to MD5, but producing a digest of 160 bits (20 bytes).Because of the large digest size, it is less likely that two different messages will have the same SHA-1 message digest. For this reason SHA-1 is recommended in preference to MD5.
+7.	HMAC - HMAC is a hashing method that uses a key in conjunction with an algorithm such as MD5 or SHA-1. Thus one can refer to HMAC-MD5 and HMAC-SHA1.
+
+Garbage collection in Java:
+Java objects are created in Heap and Heap is divided into three parts or generations for sake of garbage collection in Java, these are called as Young generation, Tenured or Old Generation and Perm Area of heap.  Young/new Generation is further divided into three parts known as Eden space, Survivor 1 and Survivor 2 space. When an object first created in heap its gets created in new generation inside Eden space and after subsequent minor garbage collection if object survives its gets moved to survivor 1 and then survivor 2 before major garbage collection moved that object to old or tenured generation.
+Permanent generation of Heap or Perm Area of Heap is somewhat special and it is used to store Meta data related to classes and method in JVM, it also hosts String pool provided by JVM(till Java 6). There are many opinions around whether garbage collection in Java happens in perm area of Java heap or not, as per my knowledge this is something which is JVM dependent and happens at least in Sun's implementation of JVM. 
+
+Types of Garbage collectors:
+1. Serial GC
+2. Throughput GC
+3. Concurrent GC
+4. Incremental GC
+
+Both Serial Garbage collector and Parallel Garbage collector or Throughput GC are Stop the world GC, it means application thread stopped when Garbage collection happens. Only difference between Serial Garbage Collection and Parallel (Throughput GC) is that in Serial both Young Generation (Eden Space + survivor) or minor collection and full GC (major collection) happens serially which introduced larger pause time while in case of Parallel GC minor collection and major collection happens in parallel which results in lower or reduced pause time. Another worth noting difference between parallel and serial GC is that former is more suited for Servers written in Java while later is best suited for Client application with lesser heap size. 
+
+On the other hand Java now has two concurrent Garbage collector as well 1) CMS (Concurrent mark sweep) and Garbage first (G1) Garbage collector which is introduced in Java 7. Both CMS and G1 are concurrent collector as oppose to stop the world Parallel GC and most of their operation performed in parallel of Application thread to further reduce application pause time but that require more overhead in terms of larger heap space because actual freeing of space require more time. By the way G1 Garbage collector is introduced as replacement of CMS GC and it employs different algorithm for garbage collection like it divide whole space into different region and target region which has most Garbage on it. that's why known as Garbage first.
+It's important to choose right kind of Garbage collector based upon your application need. Concurrent Mark Sweep (CMS) or G1 Garbage collector are more suited for high response time java application like Web Servers.
+
+Full GC and Concurrent Garbage Collection in Java:
+Concurrent garbage collector in java uses a single garbage collector thread that runs concurrently with the application threads with the goal of completing the collection of the tenured generation before it becomes full. In normal operation, the concurrent garbage collector is able to do most of its work with the application threads still running, so only brief pauses are seen by the application threads. As a fall back, if the concurrent garbage collector is unable to finish before the tenured generation fill up, the application is paused and the collection is completed with all the application threads stopped. Such Collections with the application stopped are referred as full garbage collections or full GC and are a sign that some adjustments need to be made to the concurrent collection parameters. Always try to avoid or minimize full garbage collection or Full GC because it affects performance of Java application. When you work in finance domain for electronic trading platform and with high volume low latency systems performance of Java application becomes extremely critical and you definitely like to avoid full GC during trading period.
+
+Ref for GC - http://javarevisited.blogspot.in/2011/04/garbage-collection-in-java.html
+
+Java ClassLoader loads a java class file into java virtual machine. It is as simple as that. It is not a huge complicated concept to learn and every java developer must know about the java class loaders and how it works.
+Java class loaders can be broadly classified into below categories:
+1.	Bootstrap Class Loader - Bootstrap class loader loads java’s core classes like java.lang, java.util etc. These are classes that are part of java runtime environment. Bootstrap class loader is native implementation and so they may differ across different JVMs.
+2.	Extensions Class Loader - JAVA_HOME/jre/lib/ext contains jar packages that are extensions of standard core java classes. Extensions class loader loads classes from this ext folder. Using the system environment propery java.ext.dirs you can add ‘ext’ folders and jar files to be loaded using extensions class loader.
+3.	System Class Loader - Java classes that are available in the java classpath are loaded using System class loader.
+These class loaders have a hierarchical relationship among them. Class loader can load classes from one level above its hierarchy. First level is bootstrap class loader, second level is extensions class loader and third level is system class loader.
+
+Class Self reference - When a java source file is compiled to a binary class, compiler inserts a field into java class file. It is a public static final field named ‘class’ of type java.lang.Class. 
+So for all java classes you can access it as java.lang.Class classObj = ClassName.class;
+
+Semaphore - The simplest way to think of a semaphore is to consider it an abstraction that allows n units to be acquired, and offers acquire and release mechanisms. It safely allows us to ensure that only n processes can access a certain resource at a given time.
+The main things that you should be careful of when using semaphores (including binary semaphores, i.e. mutexes) are:
+1.	Not releasing after acquire (either missing release call or an exception is thrown and there is no finally block)
+2.	Long held semaphores, causing thread starvation
+3.	Deadlocks 
+Uses of semaphore – 
+1.	Limiting concurrent access to disk (this can kill performance due to competing disk seeks)
+2.	Thread creation limiting
+3.	JDBC connection pooling / limiting
+4.	Network connection throttling
+5.	Throttling CPU or memory intensive tasks
+

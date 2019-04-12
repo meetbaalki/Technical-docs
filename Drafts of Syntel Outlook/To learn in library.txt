@@ -1,0 +1,19 @@
+ Wednesday, May 03, 2017 10:56 AM
+1.       Pivotal cloud foundry
+2.       Kafka
+3.       spark
+ 
+Pivotal Cloud Foundry -
+This helps in deploying and managing the services in cloud platform with less effort. No need to create dockers, configure things in cloud, etc.
+1. BOSH - to create Cloud Foundry in IaaS platform
+2. cf - command to create services in cloud foundry
+ 
+a. Spring cloud services is been used for microservices along with spring boot.
+b. PCF metrix - to handle logs
+ 
+Build Your Very Own Private Cloud Foundry - https://www.youtube.com/watch?v=v85r4Hy3jbs
+ 
+Inside Cloud Foundry: An Architectural Review - https://www.youtube.com/watch?v=oXExLtmw0q4
+ 
+ 
+Look out for "Getting Started - Cloud Foundry" in youtube

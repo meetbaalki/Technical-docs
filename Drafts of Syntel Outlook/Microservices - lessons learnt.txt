@@ -1,0 +1,43 @@
+20-April-2017
+=========
+1. Microservices can be deployed in multiple machines as a seperate processes. But if, microservice uses its own DB then how do each process of same microservice will sync up their DB? Will all the processes of same microservice type uses the same DB?
+2. Microservices example - 
+ github.com/redhat-helloworld-msa
+3. Spring Boot quick start - videos by Koushik
+4. Refactor your Java EE application using Microservices and Containers - by Arun Gupta
+ - blog.arungupta.me
+ 
+21-April-2017
+=========
+NoOps in Microservices - 
+1. Service replication - Kubernetes
+2. Dependency resolution - Nexus.Kind of service discovery
+3. Failover - Circuit Breaker. A pattern to bring back the service. Netflix has libraries to implement circuit breaker pattern.
+4. Resiliency - Hystrix. This helps in getting the immediate alternate solution for any failover occured.
+5. Service monitoring, alerts and events - Logstash
+Containers available in market for microservices - Docker and Rocket. Docker is more matured now.
+Docker - 
+Used to create containers for software applications
+Package Once Deploy Anywhere(PODA)
+Docker Sworm is recently released to overcome the drawbacks in Docker
+Kubernetes - 
+orchestration system for Docker containers
+schedule across hosts. i.e., it can manage multiple hosts/servers.
+The design woule be like
+ User Experience - by Openshift or WildFly
+ Cluster Management - by Kubernetes
+ Container - Docker
+ Container Host - Linux
+
+PDF files created by Arun Gupta reg. microservices - 
+https://github.com/arun-gupta/microservices/tree/master/slides
+Youtube video -
+Refactor your Java EE application using Microservices and Containers by Arun Gupta - https://www.youtube.com/watch?v=iJVW7v8O9BU
+References - 
+github.com/arun-gupta/microservices
+github.com/javaee-samples/docker-java
+dzone.com/refcardz/getting-started-with-microservices
+ 
+Getting Started with Spring Boot - https://www.youtube.com/watch?v=sbPSjI4tt10
+Getting started with Spring Cloud by Josh Long - https://www.youtube.com/watch?v=SFDYdslOvu8
+Building Microservices with Spring Cloud - https://www.youtube.com/watch?v=ZyK5QrKCbwM

@@ -1,0 +1,17 @@
+a. Set JAVA_HOME
+b. Install Scala and set SCALA_HOME
+c. Add these two env variables in path with their bin directory
+d. Download Spark and extract its content in a directory. Create SPARK_HOME env and set the same in path variable with bin directory.
+e. To get Hadoop setup do the following
+    1. Run cmd as administrator
+    2. Download winutils.exe binary from https://github.com/steveloughran/winutils repository (use hadoop-2.7.1 for Spark 2) - https://github.com/steveloughran/winutils/blob/master/hadoop-2.7.1/bin/winutils.exe
+    3. Save winutils.exe binary to a directory of your choice, e.g. c:\hadoop\bin
+    4. Set HADOOP_HOME to reflect the directory with winutils.exe (without bin), e.g. set HADOOP_HOME=c:\hadoop
+    5. Set PATH environment variable to include %HADOOP_HOME%\bin
+    6. Create c:\tmp\hive directory
+    7. Execute winutils.exe chmod -R 777 \tmp\hive
+    8. Open spark-shell and run spark.range(1).show to see a one-row dataset.
+ 
+For reference -
+http://nishutayaltech.blogspot.in/2015/04/how-to-run-apache-spark-on-windows7-in.html
+https://stackoverflow.com/questions/43808523/spark-shell-error-on-windows-can-it-be-ignored-if-not-using-hadoop

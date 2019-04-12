@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/17564074/accessing-files-in-hdfs-using-java
+ 
+Access Mongo from Spark -
+https://docs.mongodb.com/spark-connector/master/java/datasets-and-sql/
+Course in mongodb university - https://university.mongodb.com/courses/M233/about
